@@ -1,0 +1,251 @@
+{
+    "type": "bubble",
+    "size": "mega",
+    "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+            {
+                "type": "text",
+                "text": "กรุณาชำระเงิน",
+                "weight": "bold",
+                "size": "xl"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "คุณสามารถชำระเงินได้ผ่าน QR พร้อมเพย์ ",
+                        "size": "sm",
+                        "align": "center"
+                    },
+                    {
+                        "type": "text",
+                        "margin": "none",
+                        "size": "sm",
+                        "align": "center",
+                        "text": "ด้านบนผ่านแอปพลิเคชันธนาคาร"
+                    }
+                ],
+                "flex": 0,
+                "margin": "lg"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "margin": "lg",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "บริการ",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${service})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "สถานที่",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${location})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "วันที่",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${date})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "เวลา",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${time})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "ชื่อผู้จอง",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${customer})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    }
+					[# th:if="${details}"]
+					,
+					{
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "รายละเอียด",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${details})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    }
+					[/]
+                ]
+            },
+            {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "ยอดที่ต้องชำระ",
+                        "size": "md",
+                        "flex": 2,
+                        "weight": "regular"
+                    },
+                    {
+                        "type": "text",
+                        "text": "[(${subtotal})].-",
+                        "size": "xl",
+                        "margin": "none",
+                        "flex": 3,
+                        "align": "end",
+                        "weight": "bold"
+                    }
+                ],
+                "justifyContent": "center",
+                "alignItems": "center",
+                "margin": "lg"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "กรุณาชำระเงินให้เสร็จสิ้นภายในวันที่ [(${due_date})]",
+                        "size": "sm",
+                        "align": "center",
+                        "color": "#aaaaaa"
+                    },
+                    {
+                        "type": "text",
+                        "text": "เวลา [(${due_time})] เพื่อยืนยันการจอง",
+                        "margin": "none",
+                        "size": "sm",
+                        "align": "center",
+                        "color": "#aaaaaa"
+                    },
+                    {
+                        "type": "button",
+                        "style": "primary",
+                        "height": "md",
+                        "action": {
+                            "type": "uri",
+                            "label": "อัปโหลดสลิปการเงิน",
+                            "uri": "https://line.me/R/nv/cameraRoll/single"
+                        },
+                        "margin": "md"
+                    },
+                    {
+                        "type": "button",
+                        "style": "link",
+                        "height": "sm",
+                        "action": {
+                            "type": "postback",
+                            "label": "ขอเลขที่บัญชี",
+                            "data": "payment/id"
+                        }
+                    }
+                ],
+                "flex": 0,
+                "margin": "lg"
+            }
+        ]
+    }
+}

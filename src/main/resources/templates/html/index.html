@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{html/fragments/general.html :: header}"></head>
+<body>
+<div id="layout" class="content pure-g">
+
+    <div id="nav" class="pure-u" th:replace="~{html/fragments/side_menu.html :: side_menu}"></div>
+
+    <div id="list" class="pure-u-1">
+        <div class="email-item pure-g" th:each="tab: ${tabs}"
+             th:classappend="${tab.selected ? 'email-item-selcted' : ''}+${tab.unread ? 'email-item-unread' : ''}">
+            <div class="pure-u">
+                <img width="64" height="64" th:alt="'Avatar of '+${tab.name}" class="email-avatar" th:src="${tab.src}">
+            </div>
+
+            <div class="pure-u-3-4">
+                <h5 class="email-name" th:text="${tab.name}"></h5>
+                <h4 class="email-subject" th:text="${tab.subject}"></h4>
+                <p class="email-desc" th:text="${tab.desc}"></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" class="pure-u-1">
+        <div class="email-content">
+            <div class="email-content-header pure-g">
+                <div class="pure-u-1-2">
+                    <h2 class="email-content-title">คำขอดูดวง</h2>
+                    <h1 class="email-content-title">สวัสดีจาก Toronto</h1>
+                    <p class="email-content-subtitle">
+                        ผู้ดูดวง <a th:text="${card.name}"></a> อัปเดตล่าสุด <span th:text="${card.datetime}"></span>
+                    </p>
+                </div>
+
+                <div class="email-content-controls pure-u-1-2">
+                    <button class="secondary-button pure-button">ยืนยัน</button>
+                    <button class="secondary-button pure-button">ยกเลิก</button>
+                    <button class="secondary-button pure-button">เปิด Line</button>
+                </div>
+            </div>
+
+            <div class="email-content-body">
+                    <table class="pure-table">
+                        <tr class="pure-u-1-2 pure-u-sm-1" th:each="row: ${card.rows}">
+                            <th th:text="${row.first}"></th>
+                            <td th:text="${row.second}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--{{> contentBody}} todo-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Script to make the Menu link work -->
+<!-- Just stripped down version of the js/ui.js script for the side-menu layout -->
+<!-- todo Check Script -->
+<script>
+    function getElements() {
+        return {
+            menu: document.getElementById('nav'),
+            menuLink: document.getElementById('menuLink')
+        };
+    }
+
+    function toggleClass(element, className) {
+        let classes = element.className.split(/\s+/);
+        let length = classes.length;
+
+        for (let i = 0; i < length; i++) {
+            if (classes[i] === className) {
+                classes.splice(i, 1);
+                break;
+            }
+        }
+        // The className is not found
+        if (length === classes.length) {
+            classes.push(className);
+        }
+
+        element.className = classes.join(' ');
+    }
+
+    function toggleMenu() {
+        var active = 'active';
+        var elements = getElements();
+
+        toggleClass(elements.menu, active);
+    }
+
+    function handleEvent(e) {
+        var elements = getElements();
+
+        if (e.target.id === elements.menuLink.id) {
+            toggleMenu();
+            e.preventDefault();
+        } else if (elements.menu.className.indexOf('active') !== -1) {
+            toggleMenu();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('click', handleEvent);
+    });
+</script>
+</body>
+</html>

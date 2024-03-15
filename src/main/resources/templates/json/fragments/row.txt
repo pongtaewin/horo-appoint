@@ -1,0 +1,38 @@
+[# th:replace="text/fragments/row"][/]{
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "บริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "ดูฮวงจุ้ย ไม่ประกอบพิธี",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 4
+              }
+            ]
+          }
+
+          [# th:each="item : ${items}"]
+            - [(${item})]
+          [/]
+
+          [#th:block th:replace="text/header"][/th:block]
+
+
+
+    var customer: Customer
+    var service: Service
+    var timeframe: Timeframe
+    var location: Location? = null
+    var updated: Instant
+    var created: Instant
+    var approved: Instant? = null

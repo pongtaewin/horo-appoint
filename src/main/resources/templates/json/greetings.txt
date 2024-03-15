@@ -1,0 +1,84 @@
+{
+  "type": "bubble",
+  "hero": {
+    "type": "image",
+    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+    "size": "full",
+    "aspectRatio": "20:13",
+    "aspectMode": "cover"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "ยินดีต้อนรับเข้าสู่ระบบจอง",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "image",
+            "url": "[(${img})]",
+            "aspectMode": "cover",
+            "aspectRatio": "1:1",
+            "align": "start",
+            "size": "32px",
+            "flex": 0
+          },
+          {
+            "type": "text",
+            "text": "คุณ [(${name})]",
+            "flex": 1,
+            "margin": "md",
+            "size": "lg",
+            "gravity": "center"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "text": "๊UID: [(${uid})]",
+        "margin": "xl",
+        "size": "xs",
+        "color": "#C0C0C0"
+      }
+    ]
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "spacing": "sm",
+    "contents": [
+      {
+        "type": "button",
+        "style": "primary",
+        "action": {
+          "type": "postback",
+          "label": "รายการบริการ",
+          "data": "hello"
+        }
+      },
+      {
+        "type": "button",
+        "style": "link",
+        "action": {
+          "type": "postback",
+          "label": "คำถามที่พบบ่อย",
+          "data": "hello"
+        }
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [],
+        "margin": "sm"
+      }
+    ],
+    "flex": 0
+  }
+}
