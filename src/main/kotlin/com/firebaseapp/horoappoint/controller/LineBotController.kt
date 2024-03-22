@@ -2,9 +2,12 @@ package com.firebaseapp.horoappoint.controller
 
 import com.firebaseapp.horoappoint.HoroAppointApplication
 import com.firebaseapp.horoappoint.model.*
+import com.firebaseapp.horoappoint.model.enums.DurationType
+import com.firebaseapp.horoappoint.model.enums.ServiceType
 import com.firebaseapp.horoappoint.repository.CustomerRepository
 import com.firebaseapp.horoappoint.service.MessageService
-import com.firebaseapp.horoappoint.service.PaymentMessageService
+import com.firebaseapp.horoappoint.service.PaymentInfoService
+import com.firebaseapp.horoappoint.service.SchedulingService
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.spring.boot.handler.annotation.EventMapping
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
@@ -15,6 +18,7 @@ import com.linecorp.bot.webhook.model.TextMessageContent
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import java.time.Instant
+import java.time.LocalDate
 
 
 @LineMessageHandler
@@ -24,7 +28,8 @@ class LineBotController(
     //private val messagingApiBlobClient: MessagingApiBlobClient,
     private val customers: CustomerRepository,
     private val messageService: MessageService,
-    private val paymentMessageService: PaymentMessageService
+    private val paymentMessageService: PaymentInfoService,
+    private val schedulingService: SchedulingService
 ) {
 
     private val log = LoggerFactory.getLogger(HoroAppointApplication::class.java)
@@ -45,13 +50,25 @@ class LineBotController(
                         startTime = Instant.parse("2024-03-20T09:00:00.00Z")
                         endTime = Instant.parse("2024-03-20T09:15:00.00Z")
                     }
-                    location = Location().apply {
+                    location = CustomerLocation().apply {
                         this.province = "จังหวัดกรุงเทพมหานคร"
                         this.district = "เขตวังทองหลาง"
                         this.subdistrict = "แขวงคลองเจ้าคุณสิงห์"
                     }
                     created = Instant.parse("2024-03-15T12:03:00.00Z")
                 })
+
+                "Schedule" -> schedulingService.sendSchedulingMessage(event, CustomerSelection().apply {
+                    service = Service().apply {
+                        name = "แพ็กเกจดูดวงเร่งด่วน"
+                        description = "สื่อจิตสำรวจกรรม ปรับพื้นดวง\\nพร้อมให้คำแนะนำแนวทางแก้ปัญหา\\n" +
+                                "โดยการพิมพ์ตอบคำถามใน\\nช่องการสนทนาทางแซทไลน์"
+                        serviceType = ServiceType.ONLINE_CHAT
+                        durationType = DurationType.TIMED
+                        durationMinutes = 15
+                    }
+                    price = 240.0
+                }, LocalDate.of(2024, 3, 25))
             }
 
 

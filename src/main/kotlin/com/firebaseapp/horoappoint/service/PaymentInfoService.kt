@@ -1,7 +1,7 @@
 package com.firebaseapp.horoappoint.service
 
 import com.firebaseapp.horoappoint.model.Appointment
-import com.firebaseapp.horoappoint.settings.ThaiDateTimeFormatters
+import com.firebaseapp.horoappoint.settings.ThaiFormatter
 
 import com.linecorp.bot.messaging.model.ImageMessage
 import com.linecorp.bot.webhook.model.ReplyEvent
@@ -11,15 +11,13 @@ import java.net.URI
 import java.time.temporal.ChronoUnit
 
 @Service
-class PaymentMessageService(
+class PaymentInfoService(
     val messageService: MessageService
 ) {
-
-
-    fun sendPaymentInfoMessages(event: ReplyEvent, appointment: Appointment) {
-        sendPaymentInfoMessages(event, ModelMap().apply {
+    fun getPaymentInfoMessageModel(appointment: Appointment): ModelMap {
+        return ModelMap().apply {
             addAttribute("service", appointment.service!!.name)
-            appointment.location?.getName().let{addAttribute("location", it)}
+            appointment.location?.getName().let { addAttribute("location", it) }
             addAttribute("date", appointment.timeframe!!.getCombinedDate())
             addAttribute("time", appointment.timeframe!!.getCombinedTime())
             addAttribute("customer", appointment.customer!!.getFullName())
@@ -29,10 +27,15 @@ class PaymentMessageService(
                 appointment.created!!.plus(1, ChronoUnit.DAYS),
                 appointment.timeframe!!.startTime!!.minus(2, ChronoUnit.HOURS)
             )
-            if (due.isBefore(appointment.created!!)) throw IllegalArgumentException("Impossible Booking")
-            addAttribute("due_date", ThaiDateTimeFormatters.withZone(due).format(ThaiDateTimeFormatters.of("d MMM")))
-            addAttribute("due_time", ThaiDateTimeFormatters.withZone(due).format(ThaiDateTimeFormatters.of("H:mm")))
-        })
+            if (due.isBefore(appointment.created!!)) throw IllegalStateException("Impossible Booking")
+            addAttribute("due_date", ThaiFormatter.format(ThaiFormatter.asZone(due), "d MMM"))
+            addAttribute("due_time", ThaiFormatter.format(ThaiFormatter.asZone(due), "H:mm"))
+        }
+    }
+
+
+    fun sendPaymentInfoMessages(event: ReplyEvent, appointment: Appointment) {
+        sendPaymentInfoMessages(event, getPaymentInfoMessageModel(appointment))
     }
 
     fun sendPaymentInfoMessages(event: ReplyEvent, modelMap: ModelMap) {

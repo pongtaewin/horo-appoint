@@ -1,18 +1,39 @@
 package com.firebaseapp.horoappoint
 
 import com.firebaseapp.horoappoint.model.Timeframe
+import com.firebaseapp.horoappoint.service.JSONTemplateService
+import com.firebaseapp.horoappoint.service.SchedulingService
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.boot.runApplication
-import org.springframework.context.event.EventListener
 import java.time.Instant
 
 
 fun main(args: Array<String>) {
     runApplication<HoroAppointApplication>(*args)
 }
+
+
+/*
+HTML/CSS
+Mustache Template
+
+Java
+Kotlin
+Spring MVC
+Spring Boot
+
+Line Bot SDK / Spring Boot
+Jackson (JSON)
+
+Firebase Authenication
+Firebase Hosting
+Google Cloud Storage
+Google Cloud SQL
+LocationIQ
+ */
 
 
 @SpringBootApplication
@@ -27,8 +48,8 @@ class HoroAppointApplication() {
 
      */
 
-    @EventListener(ApplicationReadyEvent::class)
-    fun test() {
+    //@EventListener(ApplicationReadyEvent::class)
+    fun test1() {
         val timeFrameList = listOf(
             Instant.parse("2007-12-03T10:15:30.00Z") to Instant.parse("2007-12-04T10:15:30.00Z"),
             Instant.parse("2007-12-10T10:15:30.00Z") to Instant.parse("2007-12-11T00:00:00.00Z"),
@@ -44,6 +65,24 @@ class HoroAppointApplication() {
             log.info("Combined Time: ${tf.getCombinedTime()}")
         }
 
+    }
+
+
+    @Autowired
+    lateinit var jsonTemplateService: JSONTemplateService
+
+    @Autowired
+    lateinit var schedulingService: SchedulingService
+
+    //@EventListener(ApplicationReadyEvent::class)
+    fun test2() {
+       /*
+        log.info(
+            jsonTemplateService.processToString(schedulingService.getSchedulingMessageModel(selection,date),
+                "json/time_checker.txt")
+        )
+
+        */
     }
 
     // logger

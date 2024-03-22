@@ -3,7 +3,6 @@ package com.firebaseapp.horoappoint.model
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
-import java.sql.Timestamp
 import java.time.Instant
 
 
@@ -29,7 +28,7 @@ class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "location_id")
-    var location: Location? = null
+    var location: CustomerLocation? = null
 
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
     @Column(name = "last_updated", nullable = false)

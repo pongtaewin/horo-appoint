@@ -48,6 +48,7 @@ allOpen {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs += "-Xjsr305=strict"
+        freeCompilerArgs += "-Xjvm-default=all"
         jvmTarget = "17"
     }
 }
@@ -56,3 +57,11 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+
+/*
+tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexport-kdoc")
+    }
+}
+ */

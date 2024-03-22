@@ -1,0 +1,387 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "size": "giga",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "none",
+        "contents": [
+          {
+            "type": "text",
+            "text": "กำหนดเวลานัดหมาย",
+            "size": "lg",
+            "weight": "bold",
+            "color": "#00A040"
+          },
+          {
+            "type": "text",
+            "text": "แพ็กเกจ",
+            "size": "sm",
+            "margin": "lg",
+            "color": "#AAAAAA"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "[(${service.name})]",
+                "wrap": true,
+                "weight": "bold",
+                "size": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "[(${service.price})]",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "lg",
+                    "flex": 0
+                  },
+                  {
+                    "type": "text",
+                    "text": "บาท",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "sm",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ],
+                "justifyContent": "flex-start"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "icon",
+                        "url": "https://i.imgur.com/sNzZSYt.png",
+                        "size": "sm",
+                        "offsetTop": "xs",
+                        "offsetBottom": "xs"
+                      }
+                    ],
+                    "flex": 0,
+                    "margin": "none"
+                  },
+                  {
+                    "type": "text",
+                    "text": "ระยะเวลา [(${service.duration})]",
+                    "margin": "md",
+                    "size": "sm",
+                    "flex": 1
+                  }
+                ],
+                "spacing": "none",
+                "margin": "md"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "baseline",
+                    "contents": [
+                      {
+                        "type": "icon",
+                        "url": "https://i.imgur.com/rbHlAuW.png",
+                        "size": "sm",
+                        "offsetTop": "xs",
+                        "offsetBottom": "xs"
+                      }
+                    ],
+                    "flex": 0,
+                    "margin": "none"
+                  },
+                  {
+                    "type": "text",
+                    "text": "[(${service.location})]",
+                    "margin": "md",
+                    "size": "sm",
+                    "flex": 1
+                  }
+                ],
+                "margin": "sm"
+              },
+              {
+                "type": "text",
+                "text": "[(${service.desc})]",
+                "wrap": true,
+                "size": "sm",
+                "margin": "md"
+              }
+            ],
+            "margin": "none"
+          },
+          {
+            "type": "text",
+            "text": "วันที่นัดหมาย",
+            "size": "sm",
+            "margin": "lg",
+            "color": "#AAAAAA"
+          },
+          {
+            "type": "text",
+            "text": "[(${date.dow})]",
+            "wrap": true,
+            "weight": "bold",
+            "size": "md"
+          },
+          {
+            "type": "text",
+            "text": "[(${date.day})]",
+            "wrap": true,
+            "weight": "bold",
+            "size": "lg"
+          },
+          {
+            "type": "text",
+            "text": "[(${date.rel})]",
+            "size": "sm"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "datetimepicker",
+                  "label": "แก้ไขวันที่",
+                  "data": "dateChange",
+                  "mode": "date",
+                  "initial": "[(${date.change.initial})]",
+                  "min": "[(${date.change.min})]",
+                  "max": "[(${date.change.max})]"
+                },
+                "height": "md",
+                "style": "secondary"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "postback",
+                  "label": "เปลี่ยนแพ็กเกจ",
+                  "data": "changePackage"
+                },
+                "height": "md"
+              }
+            ],
+            "margin": "lg"
+          }
+        ],
+        "margin": "none"
+      },
+      "styles": {
+        "header": {
+          "backgroundColor": "#80FF40"
+        }
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "giga",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "size": "lg",
+            "text": "แผนผังเวลาว่าง",
+            "weight": "bold",
+            "gravity": "center"
+          },
+          {
+            "type": "text",
+            "text": "เลือกเวลาที่ต้องการได้ทางด้านขวา",
+            "color": "#A0A0A0",
+            "size": "sm"
+          },
+          {
+            "type": "text",
+            "size": "md",
+            "text": "[(${date.full_day})]",
+            "weight": "bold",
+            "gravity": "center",
+            "margin": "lg"
+          },
+          [# th:each="row : ${rows}"]
+          {
+            "type": "text",
+            "text": "[(${row.label})]",
+            "size": "md",
+            "margin": "lg",
+            "weight": "bold"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+            [# th:each="t,i : ${row.times}"]
+              [# th:unless="${i.first}"],[/]
+              {
+                "type": "text",
+                "text": "[(${t})]",
+                "size": "sm"
+              }
+            [/]
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+            [# th:each="x,i : ${row.bar}"]
+              [# th:unless="${i.first}"],[/]
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                [# th:each="y,i : ${x}"]
+                  [# th:unless="${i.first}"],[/]
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [],
+                    "margin": "none",
+                     [# th:if="${y}"] "backgroundColor": "#60FF60" [/]
+                     [# th:unless="${y}"] "backgroundColor": "#A0A0A0"[/]
+                  }
+                [/]
+                ],
+                "flex": 1,
+                "borderWidth": "normal",
+                "borderColor": "#000000"
+              }
+            [/]
+            ],
+            "height": "25px"
+          },
+          [/]
+          {
+            "type": "text",
+            "text": "อัปเดตล่าสุด: [(${updated})]",
+            "color": "#A0A0A0",
+            "size": "xs",
+            "margin": "lg"
+          }
+        ]
+      }
+    }
+    [# th:each="block : ${blocks}"]
+      ,{
+        "type": "bubble",
+        "size": "giga",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "size": "lg",
+              "text": "[(${block.label})]",
+              "weight": "bold",
+              "gravity": "center"
+            },
+            {
+              "type": "text",
+              "size": "md",
+              "text": "[(${date.full_day})]",
+              "weight": "bold",
+              "gravity": "center"
+            }
+            [# th:each="row : ${block.rows}"]
+            ,{
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "postback",
+                        "label": "[(${row.time[0]})]",
+                        "data": "chooseTime?frame=[(${row.frame[0]})]"
+                      },
+                      "style": "secondary",
+                      "height": "sm",
+                      [# th:if="${row.free[0]}"]"color": "#60FF60"[/]
+                      [# th:unless="${row.free[0]}"]"color": "#A0A0A0"[/]
+                    },
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "postback",
+                        "label": "[(${row.time[1]})]",
+                        "data": "chooseTime?frame=[(${row.frame[1]})]"
+                      },
+                      "style": "secondary",
+                      "height": "sm",
+                      "margin": "sm",
+                      [# th:if="${row.free[1]}"]"color": "#60FF60"[/]
+                      [# th:unless="${row.free[1]}"]"color": "#A0A0A0"[/]
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "postback",
+                        "label": "[(${row.time[2]})]",
+                        "data": "chooseTime?frame=[(${row.frame[2]})]"
+                      },
+                      "style": "secondary",
+                      "height": "sm",
+                      [# th:if="${row.free[2]}"]"color": "#60FF60"[/]
+                      [# th:unless="${row.free[2]}"]"color": "#A0A0A0"[/]
+                    },
+                    {
+                      "type": "button",
+                      "action": {
+                        "type": "postback",
+                        "label": "[(${row.time[3]})]",
+                        "data": "chooseTime?frame=[(${row.frame[3]})]"
+                      },
+                      "style": "secondary",
+                      "height": "sm",
+                      "margin": "sm",
+                      [# th:if="${row.free[3]}"]"color": "#60FF60"[/]
+                      [# th:unless="${row.free[3]}"]"color": "#A0A0A0"[/]
+                    }
+
+                  ],
+                  "margin": "sm"
+                }
+              ],
+              "margin": "lg"
+            }
+            [/]
+          ]
+        }
+      }
+    [/]
+  ]
+}
+

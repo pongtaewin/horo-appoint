@@ -6,7 +6,7 @@ import org.hibernate.type.SqlTypes
 
 @Entity
 @Table(name = "location")
-class Location {
+class CustomerLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "location_id", nullable = false)

@@ -1,6 +1,6 @@
 package com.firebaseapp.horoappoint.model
 
-import com.firebaseapp.horoappoint.settings.ThaiDateTimeFormatters
+import com.firebaseapp.horoappoint.settings.ThaiFormatter
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
@@ -22,8 +22,8 @@ class Timeframe {
     @Column(name = "end_time", nullable = false)
     var endTime: Instant? = null
 
-    fun getStart() = ThaiDateTimeFormatters.withZone(startTime!!)
-    fun getEnd() = ThaiDateTimeFormatters.withZone(endTime!!)
+    fun getStart() = ThaiFormatter.asZone(startTime!!)
+    fun getEnd() = ThaiFormatter.asZone(endTime!!)
 
     //todo handle 24:00 case
     fun getCombinedDate(): String {
@@ -31,23 +31,20 @@ class Timeframe {
         val endDay = getEnd().truncatedTo(ChronoUnit.DAYS)
         return when {
             startDay == endDay ||
-                    startDay.plusDays(1) == endDay && getEnd().run { hour == 0 && minute == 0 && second == 0 }
-            -> startDay.format(ThaiDateTimeFormatters.of("EEEEที่ d MMMM G yyyy"))
+                    startDay.plusDays(1) == endDay
+                    && getEnd().run { hour == 0 && minute == 0 && second == 0 } ->
+                ThaiFormatter.format(startDay, "EEEEที่ d MMMM G yyyy")
 
-            startDay.year != endDay.year -> {
-                startDay.format(ThaiDateTimeFormatters.of("EE d MMM yyyy")) + " ถึง " + endDay.format(
-                    ThaiDateTimeFormatters.of("EE d MMM yyyy"))
-            }
+            startDay.year != endDay.year ->
+                ThaiFormatter.format(startDay, "EE d MMM yyyy") + " ถึง " +
+                        ThaiFormatter.format(endDay, "EE d MMM yyyy")
 
-            startDay.month != endDay.month -> {
-                startDay.format(ThaiDateTimeFormatters.of("EEEEที่ d MMMM")) + " ถึง" + endDay.format(
-                    ThaiDateTimeFormatters.of("EEEEที่ d MMMM yyyy"))
-            }
+            startDay.month != endDay.month ->
+                ThaiFormatter.format(startDay, "EEEEที่ d MMMM") + " ถึง" +
+                        ThaiFormatter.format(endDay, "EEEEที่ d MMMM yyyy")
 
-            else -> {
-                return startDay.format(ThaiDateTimeFormatters.of("EEEEที่ d")) + " ถึง" + endDay.format(
-                    ThaiDateTimeFormatters.of("EEEEที่ d MMMM G yyyy"))
-            }
+            else -> ThaiFormatter.format(startDay, "EEEEที่ d") + " ถึง" +
+                    ThaiFormatter.format(endDay, "EEEEที่ d MMMM G yyyy")
         }
     }
 
@@ -55,17 +52,20 @@ class Timeframe {
         val startDay = getStart().truncatedTo(ChronoUnit.DAYS)
         val endDay = getEnd().truncatedTo(ChronoUnit.DAYS)
         return when {
-            startDay == endDay -> {
-                "${getStart().format(ThaiDateTimeFormatters.of("H:mm"))} - ${getEnd().format(ThaiDateTimeFormatters.of("H:mm"))} น."
-            }
+            startDay == endDay -> ThaiFormatter.format(getStart(), "H:mm") + " - " +
+                    ThaiFormatter.format(getEnd(), "H:mm") + " น."
 
-            startDay.plusDays(1) == endDay && getEnd().run { hour == 0 && minute == 0 && second == 0 } -> {
-                "${getStart().format(ThaiDateTimeFormatters.of("H:mm"))} - 24:00 น."
-            }
+            startDay.plusDays(1) == endDay && getEnd().run { hour == 0 && minute == 0 && second == 0 } ->
+                ThaiFormatter.format(getStart(), "H:mm") + " - 24:00 น."
 
-            else -> "${getStart().format(ThaiDateTimeFormatters.of("H:mm"))} น. (${startDay.format(
-                ThaiDateTimeFormatters.of("d MMM"))})" +
-                    " - ${getEnd().format(ThaiDateTimeFormatters.of("H:mm"))} น. (${endDay.format(ThaiDateTimeFormatters.of("d MMM"))})"
+            else -> String.format(
+                "%s น. (%s) - %s น. (%s)",
+                ThaiFormatter.format(getStart(), "H:mm"),
+                ThaiFormatter.format(startDay, "d MMM"),
+                ThaiFormatter.format(getEnd(), "H:mm"),
+                ThaiFormatter.format(endDay, "d MMM")
+            )
         }
     }
+
 }

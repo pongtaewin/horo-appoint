@@ -8,9 +8,7 @@ import java.net.URL
 
 // UserID is associated with the setting
 @Entity
-class Customer(
-
-) {
+class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id", nullable = false)
@@ -36,6 +34,8 @@ class Customer(
     @Column(name = "display_image")
     var displayImage: URL? = null
 
-    fun getFullName(): String = if (firstName != null && lastName != null) "$firstName $lastName"
-    else "ผู้ใช้ ${displayName!!}"
+    fun getFullName(): String =
+        if (firstName != null && lastName != null)
+            "$firstName $lastName"
+        else "ผู้ใช้ ${displayName!!}"
 }
