@@ -16,6 +16,7 @@ class PaymentInfoService(
 ) {
     fun getPaymentInfoMessageModel(appointment: Appointment): ModelMap {
         return ModelMap().apply {
+
             addAttribute("service", appointment.service!!.name)
             appointment.location?.getName().let { addAttribute("location", it) }
             addAttribute("date", appointment.timeframe!!.getCombinedDate())

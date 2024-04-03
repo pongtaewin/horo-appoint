@@ -1,0 +1,170 @@
+{
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "เลือกตัวเลือกที่ต้องการ",
+            "wrap": true,
+            "size": "lg",
+            "weight": "bold"
+          }
+          [# th:each="choice : ${choices}"]
+          ,{
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "baseline",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "[(${choice.name})]",
+                    "size": "lg",
+                    "weight": "bold",
+                    "wrap": true
+                  },
+                  {
+                    "type": "text",
+                    "text": "[(${choice.price})]",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "lg",
+                    "flex": 0,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "บาท",
+                    "wrap": true,
+                    "weight": "bold",
+                    "size": "sm",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ],
+                "justifyContent": "flex-start"
+              },
+              {
+                "type": "text",
+                "text": "[(${choice.desc})]",
+                "margin": "sm",
+                "flex": 0,
+                "wrap": true
+              }
+            ],
+            "action": {
+              "type": "postback",
+              "label": "action",
+              "data": "serviceSelected?choice=[(${choice.id})]"
+            },
+            "backgroundColor": "#DDDDDD",
+            "margin": "md",
+            "cornerRadius": "md",
+            "paddingAll": "md"
+          }
+          [/]
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "hero": {
+        "type": "image",
+        "url": "[(${service.image})]",
+        "aspectMode": "cover",
+        "aspectRatio": "20:9",
+        "size": "full"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "บริการที่เลือก",
+                "wrap": true,
+                "color": "#8c8c8c",
+                "size": "sm"
+              },
+              {
+                "type": "text",
+                "text": "[(${service.name})]",
+                "wrap": true,
+                "weight": "bold",
+                "size": "lg"
+              }
+            ],
+            "margin": "none"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              {
+                "type": "text",
+                "text": "เริ่มต้น",
+                "size": "sm",
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "[(${service.price})]",
+                "weight": "bold",
+                "size": "lg",
+                "flex": 0,
+                "margin": "sm"
+              },
+              {
+                "type": "text",
+                "text": "บาท",
+                "weight": "bold",
+                "size": "sm",
+                "flex": 0,
+                "margin": "sm"
+              }
+            ],
+            "justifyContent": "flex-start"
+          },
+          {
+            "type": "text",
+            "text": "[(${service.desc})]",
+            "wrap": true,
+            "size": "sm",
+            "margin": "md"
+          }
+        ],
+        "justifyContent": "space-evenly"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "เปลี่ยนบริการ",
+              "data": "selectService?id=[(${service.id})]"
+            },
+            "gravity": "bottom",
+            "flex": 1,
+            "style": "secondary"
+          }
+        ]
+      }
+    }
+  ]
+}

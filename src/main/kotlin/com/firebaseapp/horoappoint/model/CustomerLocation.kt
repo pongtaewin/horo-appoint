@@ -5,7 +5,7 @@ import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 
 @Entity
-@Table(name = "location")
+@Table(name = "customer_location")
 class CustomerLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

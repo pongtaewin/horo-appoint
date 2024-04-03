@@ -1,16 +1,14 @@
 package com.firebaseapp.horoappoint.model
 
-import com.firebaseapp.horoappoint.model.enums.DurationType
-import com.firebaseapp.horoappoint.model.enums.ServiceType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
+import java.net.URL
+import kotlin.math.roundToLong
 
 @Entity
 @Table(name = "service")
 class Service {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id", nullable = false)
@@ -24,28 +22,30 @@ class Service {
     @Column(name = "description", nullable = false)
     var description: String? = null
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "service_type", nullable = false)
-    var serviceType: ServiceType? = null //todo add to Database
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "display_image")
+    var displayImage: URL? = null
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "duration_type", nullable = false)
-    var durationType: DurationType? = null
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "category_id", nullable = false)
+    var category: ServiceCategory? = null
+
+    @JdbcTypeCode(SqlTypes.DOUBLE)
+    @Column(name = "min_price", nullable = false)
+    var minPrice: Double? = null
+
 
     @JdbcTypeCode(SqlTypes.SMALLINT)
-    @Column(name = "duration_minutes")
-    var durationMinutes: Int? = null
+    @Column(name = "choices_count", nullable = false)
+    var choicesCount: Int? = null
 
-    fun getDurationText(): String {
-        return when (durationType!!) {
-            DurationType.ALL_DAY -> "ตลอดทั้งวัน"
-            DurationType.TIMED -> with(durationMinutes!!) {
-                when {
-                    this < 60 -> "$this นาที"
-                    this % 60 == 0 -> "${this / 60} ชั่วโมง"
-                    else -> "${this / 60} ชั่วโมง ${this % 60} นาที"
-                }
-            }
-        }
-    }
+    fun getDisplayImageOrDefault() = displayImage ?: URL(
+        "https://images.unsplash.com/photo-1528222354212-a29573cdb844" +
+                "?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80"
+    )
+
+    fun getMinPriceRounded() = String.format(
+        if (minPrice!! == minPrice!!.roundToLong().toDouble()) "%.0f" else "%.2f",
+        minPrice!!
+    )
 }

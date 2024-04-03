@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="th">
+<head th:insert="~{html/fragments/general.html :: header-no-stylesheet}"></head>
+<body>
+<div id="layout" class="content pure-g" style="align-content: center;height: 100vh">
+    <div class="pure-u-1-5"></div>
+    <div class="pure-u-3-5">
+        <form class="pure-form pure-form-aligned" th:action="@{/staff/login}" method="post">
+            <fieldset>
+                <legend>เข้าสู่ระบบ</legend>
+                <br>
+                <div class="pure-control-group">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input type="text" name="username" id="username" placeholder="username" />
+                </div>
+                <div class="pure-control-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" name="password" id="password" placeholder="password" />
+                </div>
+                <div class="pure-controls">
+                    <label th:if="${param.error}">Invalid username and password.</label>
+                    <label th:if="${param.logout}">You have been logged out.</label>
+                    <button type="submit" class="pure-button pure-button-primary">เข้าสู่ระบบ</button>
+                </div>
+            </fieldset>
+        </form>
+
+    </div>
+    <div class="pure-u-1-5"></div>
+</div>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package com.firebaseapp.horoappoint.service
 
 import com.firebaseapp.horoappoint.model.CustomerSelection
+import com.firebaseapp.horoappoint.model.enums.SelectionState
+import com.firebaseapp.horoappoint.model.enums.ServiceType
 import com.firebaseapp.horoappoint.repository.TimeframeRepository
 import com.firebaseapp.horoappoint.settings.ThaiFormatter
 import com.linecorp.bot.webhook.model.ReplyEvent
@@ -16,33 +18,35 @@ class SchedulingService(
     val timeframeRepository: TimeframeRepository
 ) {
 
-
     // todo document hardcoding time to be in range
     //     08:00-08:15 (frame 24) to 23:45-24:00 (frame 95)
     fun getSchedulingMessageModel(selection: CustomerSelection, date: LocalDate): ModelMap {
+        /*if (selection.checkSelectionState() != SelectionState.SCHEDULE_REQUIRED)
+            throw IllegalStateException("Scheduling Not Updated") //todo check logic*/
+
         val now = ThaiFormatter.now()
+        val today = now.toLocalDate()
         return ModelMap().apply {
+            val choice = selection.serviceChoice!!
             addAttribute("service", buildMap {
-                put("name", selection.service!!.name!!)
-                put("price", ThaiFormatter.currency(selection.price!!))
-                put("duration", selection.service!!.getDurationText())
-                put("location", "ผ่านทางแชทไลน์") //todo add proper logic
-                put("desc", selection.service!!.description!! /*?: "-"*/) //todo Check if mandatory
+                put("name", choice.service!!.name!!)
+                put("price", ThaiFormatter.currency(choice.price!!))
+                put("duration", choice.getDurationText())
+                put("location", selection.getLocationDescriptor())
+                put("desc", choice.getFullDescription())
             })
 
             addAttribute("date", buildMap {
-                put("dow", "${ThaiFormatter.format(date, "EEEE")}ที่")
+                put("dow", ThaiFormatter.format(date, "EEEEที่"))
                 put("day", ThaiFormatter.format(date, "d MMMM yyyy"))
-                put("rel", ThaiFormatter.durationDaysLeft(now.toLocalDate(), date))
+                put("rel", ThaiFormatter.durationDaysLeft(today, date))
                 put("full_day", ThaiFormatter.format(date, "EEEEที่ d MMMM yyyy"))
+
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                val min = now.toLocalDate()
-                val max = min.plusMonths(6)
-                val initial = if(min <= date && date <= max) date else min
                 put("change", buildMap {
-                    put("initial", formatter.format(initial))
-                    put("min", formatter.format(min))
-                    put("max", formatter.format(max))
+                    put("initial", formatter.format(if (date in today..(today.plusMonths(6))) date else today))
+                    put("min", formatter.format(today))
+                    put("max", formatter.format(today.plusMonths(6)))
                 })
             })
 
@@ -58,7 +62,8 @@ class SchedulingService(
                 }
             })
 
-            val frameLength = selection.service!!.durationMinutes!!.let { it / 15 + if (it % 15 != 0) 1 else 0 }
+            //todo deprecation
+            val frameLength = 1//selection.service!!.durationMinutes!!.let { it / 15 + if (it % 15 != 0) 1 else 0 }
             val framesSlot = frames.asSequence()
                 .windowed(frameLength) { l -> l.reduce(Boolean::and) }.toList().toTypedArray()
             addAttribute("blocks", lists.map { (label, range) ->
@@ -87,7 +92,7 @@ class SchedulingService(
         messageService.replyMessage(
             event,
             messageService.processTemplateAndMakeMessage(
-                "json/time_checker.txt",
+                "json/scheduling.txt",
                 modelMap,
                 "กรุณาเลือกเวลารับบริการที่ต้องการ"
             )

@@ -11,11 +11,14 @@ import com.linecorp.bot.webhook.model.FollowEvent
 import com.linecorp.bot.webhook.model.ReplyEvent
 import org.springframework.stereotype.Service
 import org.springframework.ui.ModelMap
+import org.thymeleaf.context.Context
+import org.thymeleaf.spring6.SpringTemplateEngine
+import java.io.StringWriter
 
 @Service
 class MessageService(
-    val jsonTemplateService: JSONTemplateService,
-    val messagingApiClient: MessagingApiClient
+    val messagingApiClient: MessagingApiClient,
+    val templateEngine: SpringTemplateEngine
 ) {
     fun sendFollowMessage(event: FollowEvent, customer: Customer) {
         replyMessage(event, processTemplateAndMakeMessage("json/greetings.txt", ModelMap().apply {
@@ -33,7 +36,11 @@ class MessageService(
         ObjectMapper().run { configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false) }
             .readValue(
                 """{"type":"flex","altText":"$altText","contents":${
-                    jsonTemplateService.processToString(modelMap, template)
+                    processJSONToString(modelMap, template)
                 }}""", FlexMessage::class.java
             )
+
+    fun processJSONToString(modelMap: ModelMap, template: String) = StringWriter().apply{
+        templateEngine.process(template, Context().apply{setVariables(modelMap)}, this)
+    }.toString()
 }

@@ -2,6 +2,8 @@ package com.firebaseapp.horoappoint.settings
 
 import kotlin.random.Random
 
+// todo refactor
+@Deprecated("Should remove or move to Service logic")
 data class UserTab(
     val name: String,
     val subject: String,

@@ -1,0 +1,133 @@
+{
+  "type": "carousel",
+  "contents": [
+    [# th:each="service : ${services}"]
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "hero": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "image",
+            "size": "full",
+            "aspectRatio": "20:9",
+            "aspectMode": "cover",
+            "flex": 2,
+            "url": "[(${service.image})]"
+          }
+        ],
+        "flex": 1
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "none",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "[(${service.name})]",
+                "wrap": true,
+                "weight": "bold",
+                "size": "lg"
+              }
+            ],
+            "flex": 2,
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "contents": [
+              [# th:if="${service.choices} > 1"]
+              {
+                "type": "text",
+                "text": "เริ่มต้น",
+                "flex": 0,
+                "margin": "none",
+                "size": "sm"
+              },
+              [/]
+              {
+                "type": "text",
+                "text": "[(${service.price})]",
+                "weight": "bold",
+                "size": "lg",
+                [# th:if="${service.choices} > 1"]"margin": "sm",[/]
+                "flex": 0
+              },
+              {
+                "type": "text",
+                "text": "บาท",
+                "weight": "bold",
+                "size": "sm",
+                "margin": "sm",
+                "flex": 0
+              }
+              [# th:if="${service.choices} > 1"],
+              {
+                "type": "text",
+                "text": "([(${service.choices})] ตัวเลือก)",
+                "wrap": true,
+                "size": "sm",
+                "margin": "sm",
+                "align": "end"
+              }
+              [/]
+            ],
+            "justifyContent": "flex-end"
+          },
+          {
+            "type": "text",
+            "text": "[(${service.desc})]",
+            "wrap": true,
+            "size": "sm",
+            "margin": "md"
+          }
+        ],
+        "margin": "none"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "button",
+            "style": "primary",
+            "action": {
+              "type": "postback",
+              "label": "เลือกบริการนี้",
+              "data": "selectServiceChoice?id=[(${service.id})]"
+            }
+          }
+        ]
+      }
+    },
+    [/]
+    {
+      "type": "bubble",
+      "size": "kilo",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "ย้อนกลับ",
+              "data": "openCatalog"
+            }
+          }
+        ],
+        "justifyContent": "center"
+      }
+    }
+  ]
+}

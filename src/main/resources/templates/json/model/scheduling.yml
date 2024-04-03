@@ -1,0 +1,31 @@
+service:
+  name: #
+  price: #
+  duration: #
+  location: #
+  desc: #
+date:
+  dow: #
+  day: #
+  rel: #
+  change:
+    initial: #
+    min: #
+    max: #
+  full_day: #
+rows:
+  - row:
+      label: #
+      times:
+        - t: #
+      bar:
+        - x:
+            - y: #
+updated: #
+blocks:
+  - block:
+      label: #
+      rows:
+        - row:
+            time: #[]
+            free: #[]

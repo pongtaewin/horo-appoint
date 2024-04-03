@@ -42,7 +42,7 @@
       },
       {
         "type": "text",
-        "text": "๊UID: [(${uid})]",
+        "text": "UID: [(${uid})]",
         "margin": "xl",
         "size": "xs",
         "color": "#C0C0C0"
@@ -60,7 +60,7 @@
         "action": {
           "type": "postback",
           "label": "รายการบริการ",
-          "data": "hello"
+          "data": "openCatalog"
         }
       },
       {

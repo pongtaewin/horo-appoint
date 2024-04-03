@@ -34,8 +34,7 @@ class Customer {
     @Column(name = "display_image")
     var displayImage: URL? = null
 
-    fun getFullName(): String =
-        if (firstName != null && lastName != null)
-            "$firstName $lastName"
-        else "ผู้ใช้ ${displayName!!}"
+    fun getFullName(): String? = firstName?.let { f -> lastName?.let { l -> "$f $l" } }
+
+    fun getFullNameOrDefault(): String = getFullName() ?: "ผู้ใช้ ${displayName!!}"
 }

@@ -10,11 +10,11 @@ import java.util.*
 class ThaiFormatter {
 
     companion object {
-        val zoneId = ZoneId.of("Asia/Bangkok")
+        val zoneId: ZoneId = ZoneId.of("Asia/Bangkok")
         fun of(pattern: String): DateTimeFormatter = DateTimeFormatter.ofPattern(pattern)
             .withLocale(Locale("th")).withChronology(ThaiBuddhistChronology.INSTANCE)
 
-        fun now() = ZonedDateTime.now(zoneId)
+        fun now(): ZonedDateTime = ZonedDateTime.now(zoneId)
 
         fun asZone(instant: Instant): ZonedDateTime = instant.atZone(zoneId)
         fun currency(amount: Double, requiresDecimal: Boolean = false): String =

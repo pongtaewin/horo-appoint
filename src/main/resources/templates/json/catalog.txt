@@ -1,0 +1,56 @@
+{
+  "type": "carousel",
+  "contents": [
+    [# th:each="category,i : ${categories}"]
+    [# th:unless="${i.first}"],[/]
+    {
+      "type": "bubble",
+      "size": "deca",
+      "hero": {
+        "type": "image",
+        "url": "[(${category.image})]",
+        "size": "full",
+        "aspectMode": "cover",
+        "aspectRatio": "20:13"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "[(${category.name})]",
+            "weight": "bold",
+            "size": "lg",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "[(${category.desc})]",
+            "wrap": true,
+            "color": "#8c8c8c",
+            "size": "sm"
+          }
+        ],
+        "spacing": "sm",
+        "paddingAll": "13px"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "แสดงบริการ",
+              "data": "selectService?id=[(${category.id})]"
+            },
+            "style": "primary"
+          }
+        ]
+      }
+    }
+    [/]
+  ]
+}
