@@ -1,37 +1,24 @@
 package com.firebaseapp.horoappoint
 
-import com.firebaseapp.horoappoint.service.LocationService
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher
-import org.springframework.security.web.util.matcher.RequestMatcher
-import org.springframework.stereotype.Component
 import org.thymeleaf.spring6.SpringTemplateEngine
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver
 import org.thymeleaf.templatemode.TemplateMode
 import java.util.*
-import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
-import kotlin.streams.asSequence
 
 
 fun main(args: Array<String>) {
@@ -89,26 +76,6 @@ class HoroAppointApplication {
     @EnableWebSecurity
     class SecurityConfig {
 
-        companion object {
-            /*private val lineIpAddresses = listOf(
-                "43.223.0.0/16",
-                "103.2.28.0/24",
-                "103.2.30.0/23",
-                "119.235.224.0/24",
-                "119.235.232.0/24",
-                "119.235.235.0/24",
-                "119.235.236.0/23",
-                "147.92.128.0/17",
-                "203.104.128.0/20",
-                "203.104.144.0/21",
-                "203.104.152.0/22",
-                "203.104.156.0/23",
-                "203.104.158.0/24"
-            )
-            todo cleanup this and others
-             */
-        }
-
         /**
          * Security Filter Chain
          * 1. Login Page to every requests.
@@ -122,44 +89,12 @@ class HoroAppointApplication {
                 .authorizeHttpRequests {
                     it
                         .requestMatchers("/callback").permitAll()
-                        /*.requestMatchers(RequestMatcher { request ->
-                            val body = request.reader.lines().asSequence().joinToString("\n")
-                            with(LoggerFactory.getLogger("HoroAppointLogger")) {
-                                info(body)
-                                info(request.servletPath)
-                                info(request.method)
-                                info(getLineRequestBodySignature(body))
-                                info(request.getHeader("x-line-signature"))
-                            }
-                            true//request.servletPath == "/callback"
-                        })
-                        .permitAll()
-                        //.requestMatchers("/callback")
-                        .access(WebExpressionAuthorizationManager(
-                            lineIpAddresses.joinToString(" or ") { ip -> "hasIpAddress('$ip')" }.also {
-                                LoggerFactory.getLogger(HoroAppointApplication::class.java).info("matcher: $it")
-                            }
-                        ))
-                         */
-                        //.permitAll() //todo ignore
                         .requestMatchers("/staff/login").permitAll()
                         .anyRequest().authenticated()
                 }.httpBasic { }.formLogin { it.loginPage("/staff/login").permitAll() }
 
             return http.build()
         }
-
-        /*
-        @Value("{line.channel-secret}")
-        lateinit var channelSecret: String
-
-        fun getLineRequestBodySignature(httpRequestBody: String): String = Base64.getEncoder().encodeToString(
-            Mac.getInstance("HmacSHA256")
-                .apply { init(SecretKeySpec(channelSecret.toByteArray(), "HmacSHA256")) }
-                .doFinal(httpRequestBody.toByteArray(charset("UTF-8")))
-        )
-
-         */
 
         @Bean
         fun authenticationManager(userDetailsService: UserDetailsService) =

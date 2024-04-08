@@ -25,9 +25,7 @@ class ServiceCategory {
     @Column(name = "display_image")
     var displayImage: URL? = null
 
-    fun getDisplayImageOrDefault() = displayImage ?: URL(
-        "https://images.unsplash.com/photo-1528222354212-a29573cdb844" +
-                "?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80"
-    )
+    fun getDisplayImageOrDefault() =
+        displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default.jpg")
 
 }

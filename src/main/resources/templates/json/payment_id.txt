@@ -1,0 +1,194 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กรุณาชำระเงิน",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "text": "คุณสามารถชำระเงินได้ผ่านการโอนเงิน",
+            "size": "sm",
+            "align": "center"
+          },
+          {
+            "type": "text",
+            "margin": "none",
+            "size": "sm",
+            "align": "center",
+            "text": "มายังบัญชีที่กำหนดไว้ด้านล่าง"
+          }
+        ],
+        "flex": 0,
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "lg",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ประเภทบัญชี",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "ออมทรัพย์",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ธนาคาร",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "กสิกรไทย\n(Kasikorn Bank Co, Ltd.)",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "สาขา",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "บางกระบือ",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ชื่อบัญชี",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "นายกิตติศักดิ์ นาคพงศ์พิมาน",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "เลขที่บัญชี",
+            "size": "md",
+            "margin": "lg",
+            "weight": "bold"
+          },
+          {
+            "type": "text",
+            "text": "007-2-90556-3",
+            "size": "xxl",
+            "margin": "none",
+            "flex": 3,
+            "weight": "bold",
+            "align": "center"
+          }
+        ],
+        "justifyContent": "center",
+        "alignItems": "center",
+        "margin": "lg"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "text": "กรุณาชำระเงินให้เสร็จสิ้นภายในวันที่ [(${due_date})]",
+            "size": "sm",
+            "align": "center",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "text",
+            "text": "เวลา [(${due_time})] เพื่อยืนยันการจอง",
+            "margin": "none",
+            "size": "sm",
+            "align": "center",
+            "color": "#aaaaaa"
+          },
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "md",
+            "action": {
+              "type": "uri",
+              "label": "อัปโหลดสลิปการเงิน",
+              "uri": "https://line.me/R/nv/cameraRoll/single"
+            },
+            "margin": "md"
+          }
+        ],
+        "flex": 0,
+        "margin": "lg"
+      }
+    ]
+  }
+}

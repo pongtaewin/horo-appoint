@@ -60,7 +60,7 @@
         "action": {
           "type": "postback",
           "label": "รายการบริการ",
-          "data": "openCatalog"
+          "data": "selectServiceCategory"
         }
       },
       {

@@ -5,7 +5,7 @@
     [# th:unless="${i.first}"],[/]
     {
       "type": "bubble",
-      "size": "deca",
+      "size": "hecto",
       "hero": {
         "type": "image",
         "url": "[(${category.image})]",

@@ -1,14 +1,17 @@
 package com.firebaseapp.horoappoint.service
 
+import com.firebaseapp.horoappoint.LineBotEventService
 import com.firebaseapp.horoappoint.model.CustomerSelection
 import com.firebaseapp.horoappoint.model.ServiceChoice
+import com.firebaseapp.horoappoint.model.enums.SelectionState
 import com.firebaseapp.horoappoint.repository.CustomerRepository
 import com.firebaseapp.horoappoint.repository.CustomerSelectionRepository
 import com.firebaseapp.horoappoint.repository.ServiceChoiceRepository
-import com.linecorp.bot.messaging.model.TextMessage
+import com.linecorp.bot.messaging.model.*
 import com.linecorp.bot.webhook.model.Event
 import com.linecorp.bot.webhook.model.ReplyEvent
 import org.springframework.stereotype.Service
+import org.springframework.ui.ModelMap
 import kotlin.jvm.optionals.getOrElse
 
 @Service
@@ -17,24 +20,57 @@ class CustomerInfoService(
     private val serviceChoiceRepository: ServiceChoiceRepository,
     private val customerSelectionRepository: CustomerSelectionRepository,
     private val customerRepository: CustomerRepository,
-    ) {
+) {
     fun <T> handleServiceSelectedEvent(event: T, params: Map<String, String>) where T : Event, T : ReplyEvent {
         val choice = serviceChoiceRepository.findById(params["choice"]!!.toLong()).get()
 
         println("Service Selected = $choice")
+        // Handle Switched State
         val selection = getOrCreateCustomerSelection(event, choice)
-        messageService.replyMessage(
-            event,
-            TextMessage("ได้ทำการบันทึกข้อมูลเรียบร้อย"),
-            TextMessage(selection.run{
-                """
-                    id = $id
-                    customer = [name = ${customer?.displayName}, uid = ${customer?.id}]
-                    selection = [name = ${serviceChoice?.service?.name}, option = ${serviceChoice?.name}, id = ${serviceChoice?.id}]
-                """.trimIndent()
-            })
-        )
-        /* todo Figure Tasks by Repostiory */
+        val message: Message = when (selection.getSelectionState()) {
+            SelectionState.LOCATION_REQUIRED ->
+                messageService.processTemplateAndMakeMessage(
+                    "json/prompt_customer_location.txt",
+                    ModelMap(),
+                    "กรุณาเลือกสถานที่ให้บริการ",
+                    QuickReplyItem(LocationAction("เลือกตำแหน่งบนแผนที่"))
+                )
+
+
+            SelectionState.DATE_REQUIRED -> messageService.processTemplateAndMakeMessage(
+                "json/pick_date.txt",
+                ModelMap(),
+                "กรุณาเลือกวันที่"
+            )
+
+            SelectionState.TIME_REQUIRED -> messageService.processTemplateAndMakeMessage(
+                "json/pick_date.txt",
+                ModelMap(),
+                "กรุณาเลือกเวลารับบริการ"
+            )
+
+            SelectionState.CUSTOMER_NAME_REQUIRED -> messageService.processTemplateAndMakeMessage(
+                "json/enter_name.txt",
+                ModelMap(),
+                "กรุณาเลือกเวลารับบริการ",
+                QuickReplyItem(PostbackAction("เปลี่ยนวันรับบริการ", "data", null, null, null, null)),
+                QuickReplyItem(PostbackAction("เปลี่ยนเวลารับบริการ", "data", null, null, null, null))
+            )
+
+            SelectionState.READY -> messageService.processTemplateAndMakeMessage(
+                "json/confirmation.txt",
+                ModelMap(),
+                "กรุณายืนยันออเดอร์",
+
+                QuickReplyItem(PostbackAction("เปลี่ยนบริการ", "data", null, null, null, null)),
+                QuickReplyItem(PostbackAction("เปลี่ยนวันรับบริการ", "data", null, null, null, null)),
+                QuickReplyItem(PostbackAction("เปลี่ยนเวลารับบริการ", "data", null, null, null, null)),
+                QuickReplyItem(PostbackAction("เปลี่ยนชื่อ-นามสกุล", "data", null, null, null, null))
+            )
+        }
+
+        messageService.replyMessage(event, message)
+
     }
 
     fun <T> getOrCreateCustomerSelection(
@@ -58,9 +94,11 @@ class CustomerInfoService(
         }
     }
 
+    val PARAMS = listOf(SERVICE_SELECTED, NAME_RECEIVED)
+
     companion object {
         const val SERVICE_SELECTED = "serviceSelected"
-        val PARAMS = listOf(SERVICE_SELECTED)
+        const val NAME_RECEIVED = "nameReceived"
     }
 
 }

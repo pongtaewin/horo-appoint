@@ -1,10 +1,59 @@
 {
   "type": "carousel",
   "contents": [
-    [# th:each="service : ${services}"]
     {
       "type": "bubble",
-      "size": "kilo",
+      "size": "hecto",
+      "hero": {
+        "type": "image",
+        "url": "[(${category.image})]",
+        "size": "full",
+        "aspectRatio": "20:13",
+        "aspectMode": "cover"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "กลุ่มบริการที่เลือก",
+            "size": "xs",
+            "color": "#8c8c8c",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "[(${category.name})]",
+            "size": "lg",
+            "weight": "bold",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "[(${category.desc})]",
+            "size": "sm",
+            "color": "#8c8c8c",
+            "wrap": true
+          }
+        ],
+        "spacing": "sm",
+        "paddingAll": "13px"
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#d1fade"
+        },
+        "footer": {
+          "backgroundColor": "#d1fade"
+        }
+      }
+    }
+    [# th:each="service : ${services}"]
+    ,
+    {
+      "type": "bubble",
+      "size": "hecto",
       "hero": {
         "type": "box",
         "layout": "vertical",
@@ -79,8 +128,7 @@
                 "align": "end"
               }
               [/]
-            ],
-            "justifyContent": "flex-end"
+            ]
           },
           {
             "type": "text",
@@ -108,26 +156,7 @@
           }
         ]
       }
-    },
-    [/]
-    {
-      "type": "bubble",
-      "size": "kilo",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "button",
-            "action": {
-              "type": "postback",
-              "label": "ย้อนกลับ",
-              "data": "openCatalog"
-            }
-          }
-        ],
-        "justifyContent": "center"
-      }
     }
+    [/]
   ]
 }

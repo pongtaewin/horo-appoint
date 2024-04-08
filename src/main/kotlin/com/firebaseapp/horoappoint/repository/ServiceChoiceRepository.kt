@@ -5,7 +5,5 @@ import com.firebaseapp.horoappoint.model.ServiceChoice
 import org.springframework.data.repository.CrudRepository
 
 interface ServiceChoiceRepository : CrudRepository<ServiceChoice, Long> {
-
-
-    fun findByService(service: Service): List<ServiceChoice>
+    fun findByServiceOrderByIdAsc(service: Service): List<ServiceChoice>
 }

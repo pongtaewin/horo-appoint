@@ -158,7 +158,7 @@
                         "contents": [
                             {
                                 "type": "text",
-                                "text": "รายละเอียด",
+                                "text": "ข้อมูล",
                                 "color": "#aaaaaa",
                                 "size": "sm",
                                 "flex": 1
@@ -239,7 +239,7 @@
                         "action": {
                             "type": "postback",
                             "label": "ขอเลขที่บัญชี",
-                            "data": "payment/id"
+                            "data": "paymentId"
                         }
                     }
                 ],

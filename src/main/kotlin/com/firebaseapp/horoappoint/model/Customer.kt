@@ -23,18 +23,11 @@ class Customer {
     var displayName: String? = null
 
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "first_name")
-    var firstName: String? = null
-
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    @Column(name = "last_name")
-    var lastName: String? = null
+    @Column(name = "full_name")
+    var fullName: String? = null
 
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "display_image")
     var displayImage: URL? = null
 
-    fun getFullName(): String? = firstName?.let { f -> lastName?.let { l -> "$f $l" } }
-
-    fun getFullNameOrDefault(): String = getFullName() ?: "ผู้ใช้ ${displayName!!}"
 }

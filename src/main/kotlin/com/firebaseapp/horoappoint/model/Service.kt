@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.net.URL
+import java.text.DecimalFormat
 import kotlin.math.roundToLong
 
 @Entity
@@ -34,18 +35,13 @@ class Service {
     @Column(name = "min_price", nullable = false)
     var minPrice: Double? = null
 
-
     @JdbcTypeCode(SqlTypes.SMALLINT)
     @Column(name = "choices_count", nullable = false)
     var choicesCount: Int? = null
 
-    fun getDisplayImageOrDefault() = displayImage ?: URL(
-        "https://images.unsplash.com/photo-1528222354212-a29573cdb844" +
-                "?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=869&q=80"
-    )
+    fun getDisplayImageOrDefault() =
+        displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default-small.jpg")
 
-    fun getMinPriceRounded() = String.format(
-        if (minPrice!! == minPrice!!.roundToLong().toDouble()) "%.0f" else "%.2f",
-        minPrice!!
-    )
+    fun getMinPriceRounded(): String =
+        DecimalFormat(if (minPrice!! == minPrice!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(minPrice!!)
 }

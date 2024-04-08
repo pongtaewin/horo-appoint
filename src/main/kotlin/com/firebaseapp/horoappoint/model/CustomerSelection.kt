@@ -1,6 +1,6 @@
 package com.firebaseapp.horoappoint.model
 
-import com.firebaseapp.horoappoint.model.enums.SelectionState
+import com.firebaseapp.horoappoint.model.enums.SelectionState.Companion.checkSelectionState
 import com.firebaseapp.horoappoint.model.enums.ServiceType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -32,13 +32,8 @@ class CustomerSelection {
 
     @Nullable
     @ManyToOne
-    @JoinColumn(name = "customer_location_id")
-    var customerLocation: CustomerLocation? = null
-
-    @Nullable
-    @ManyToOne
-    @JoinColumn(name = "staff_location_id")
-    var staffLocation: StaffLocation? = null
+    @JoinColumn(name = "location_id")
+    var location: Location? = null
 
     @Nullable
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
@@ -50,12 +45,22 @@ class CustomerSelection {
     @Column(name = "start_time")
     var startTime: Instant? = null
 
+    @NonNull
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "is_waiting_for_name", nullable = false)
+    var isWaitingForName: Boolean? = false
+
+    @NonNull
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "is_location_confirmed", nullable = false)
+    var isLocationConfirmed: Boolean? = false
+    //todo add to db
 
     fun getLocationDescriptor(): String = when (serviceChoice!!.serviceType!!) {
-        ServiceType.ONLINE_CHAT -> "ผ่านทางแชทไลน์"
-        ServiceType.MEETUP -> customerLocation!!.getName()
-        ServiceType.ON_PREMISE, ServiceType.GUIDE -> staffLocation!!.fullName!!
+        ServiceType.ONLINE_CHAT, ServiceType.PASSIVE -> "ผ่านทางแชทไลน์"
+        ServiceType.ON_PREMISE, ServiceType.GUIDE -> "สำนักสักลายมือเศรษฐี จอมพล 789\nตำบลท้ายหาด อำเภอเมือง จังหวัดสมุทรสงคราม"
+        ServiceType.MEETUP -> location!!.getName()
     }
 
-    fun getSelectionState() = SelectionState.checkSelectionState(this)
+    fun getSelectionState() = checkSelectionState()
 }

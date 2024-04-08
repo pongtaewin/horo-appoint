@@ -1,0 +1,118 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กรุณาตรวจสอบสลิป",
+        "weight": "bold",
+        "size": "xl"
+      }
+    ]
+  },
+  "hero": {
+    "type": "image",
+    "url": "[(${uri})]",
+    "aspectMode": "fit",
+    "size": "full"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "lg",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "เวลาอัปโหลด",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${uploaded})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ยอดชำระ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${amount})] บาท",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "size": "sm",
+            "align": "center",
+            "color": "#aaaaaa",
+            "text": "โปรดตรวจสอบให้ถูกต้อง แล้วกดยืนยัน"
+          },
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "md",
+            "action": {
+              "type": "postback",
+              "label": "ยืนยันการส่งข้อมูล",
+              "data": "slipUploaded"
+            },
+            "margin": "lg"
+          },
+          {
+            "type": "button",
+            "style": "link",
+            "height": "md",
+            "action": {
+              "type": "uri",
+              "uri": "https://line.me/R/nv/cameraRoll/single",
+              "label": "อัปโหลดสลิปใหม่"
+            },
+            "margin": "none"
+          }
+        ],
+        "flex": 0,
+        "margin": "lg"
+      }
+    ]
+  }
+}
