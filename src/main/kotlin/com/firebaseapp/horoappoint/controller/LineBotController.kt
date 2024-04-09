@@ -3,19 +3,18 @@ package com.firebaseapp.horoappoint.controller
 import com.firebaseapp.horoappoint.HoroAppointApplication
 import com.firebaseapp.horoappoint.model.*
 import com.firebaseapp.horoappoint.model.enums.SelectionState
-import com.firebaseapp.horoappoint.model.enums.ServiceType
-import com.firebaseapp.horoappoint.repository.AppointmentRepository
 import com.firebaseapp.horoappoint.repository.CustomerRepository
 import com.firebaseapp.horoappoint.repository.CustomerSelectionRepository
 import com.firebaseapp.horoappoint.service.*
-import com.linecorp.bot.messaging.client.MessagingApiBlobClient
+import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE
+import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE_CATEGORY
+import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE_CHOICE
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.spring.boot.handler.annotation.EventMapping
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
 import com.linecorp.bot.webhook.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
-import java.time.Instant
 import kotlin.jvm.optionals.getOrNull
 
 
@@ -26,13 +25,15 @@ class LineBotController(
     //private val messagingApiBlobClient: MessagingApiBlobClient,
     private val customers: CustomerRepository,
     private val messageService: MessageService,
-    private val postbackHandlerService: PostbackHandlerService,
-    private val paymentMessageService: PaymentInfoService,
-    private val paymentResultStorageService: PaymentResultStorageService,
+    private val catalogService: CatalogService,
+    //private val postbackHandlerService: PostbackHandlerService,
+    private val paymentMessageService: PaymentService,
     //private val appointmentRepository: AppointmentRepository,
     //private val schedulingService: SchedulingService,
     private val customerSelectionRepository: CustomerSelectionRepository,
-    private val customerInfoService: CustomerInfoService
+    private val customerInfoService: CustomerInfoService,
+    private val schedulingService: SchedulingService,
+    private val paymentService: PaymentService
 ) {
 
     private val log = LoggerFactory.getLogger(HoroAppointApplication::class.java)
@@ -57,28 +58,63 @@ class LineBotController(
         return q to m
     }
 
+    companion object {
+        val SERVICE_CATEGORY = SELECT_SERVICE_CATEGORY
+        val SERVICE = SELECT_SERVICE
+        val SERVICE_CHOICE = SELECT_SERVICE_CHOICE
+        val LOCATION = "location"
+        val DATE = "date"
+        val TIME = "time"
+        val NAME = "name"
+        val BOOKING_CONFIRM = "bookingConfirm"
+        val PAYMENT = "payment"
+        val PAYMENT_ID = "paymentID"
+        val SLIP_CONFIRM = "slipConfirm"
+        val SLIP_UPLOADED = "slipUploaded"
+    }
 
     @EventMapping
     fun handlePostbackEvent(event: PostbackEvent) {
         log.info("[LB] Postback Event: $event")
         val (query, params) = getParameters(event.postback.data)
-        postbackHandlerService.handlePostbackEvent(event, query, params)
+        when (query) {
+            SERVICE_CATEGORY -> catalogService.handleServiceCategoryEvent(event, params)
+            SERVICE -> catalogService.handleServiceEvent(event, params)
+            SERVICE_CHOICE -> catalogService.handleServiceChoiceEvent(event, params)
+            LOCATION -> schedulingService.handleLocationEvent(event, params)
+            DATE -> schedulingService.handleDateEvent(event, params)
+            TIME -> println("todo") //schedulingService.handleTimeEvent(event, params) //scheduling, implemented
+            NAME -> println("todo") //schedulingService.handleNameEvent(event, params) //not implemented, but easy
+            BOOKING_CONFIRM -> println("todo") //schedulingService.handleConfirmEvent(event, params) // reuse the payment template
+            PAYMENT -> paymentService.handlePaymentEvent(event, params)
+            PAYMENT_ID -> paymentService.handlePaymentIDEvent(event, params)
+            SLIP_CONFIRM -> println("todo") //paymentService.handleSlipConfirmEvent(event, params) // reuse the slipUploaded template
+            SLIP_UPLOADED -> paymentService.handleSlipUploadedEvent(event, params)
+            else -> return
+        }
     }
+
+    //แสดงกลุ่มบริการ
+    //แสดงบริการในกลุ่ม
+    //เลือกบริการ
+    //เลือก
 
     @EventMapping
     fun handleMessageEvent(event: MessageEvent) {
         log.info("[LB] Message Event: $event")
         when (val message = event.message) {
             is ImageMessageContent -> {
-                paymentResultStorageService.handleUploadSlipEvent(event, mapOf())
+                paymentService.handleUploadSlipEvent(event, mapOf())
             }
 
             is TextMessageContent -> {
-                val selection = customerSelectionRepository.findByCustomer_LineUID(event.source.userId()).getOrNull()
+                /*val selection = customerSelectionRepository.findByCustomer_LineUID(event.source.userId()).getOrNull()
                 if (selection?.getSelectionState() == SelectionState.CUSTOMER_NAME_REQUIRED) {
                     customerInfoService.handleEvent(event, CustomerInfoService.NAME_RECEIVED, mapOf())
                 } else when (message.text) {
-                    "QR" -> paymentMessageService.sendPaymentInfoMessages(
+
+                 */
+                    /*"QR" -> paymentMessageService.sendPaymentInfoMessages(
                         event,
                         Appointment().apply {
                             customer = Customer().apply {
@@ -103,6 +139,8 @@ class LineBotController(
                             }
                             created = Instant.parse("2024-04-05T12:03:00.00Z")
                         })
+
+                     */
                     /*
                     "Schedule" -> schedulingService.sendSchedulingMessage(
                         event,
@@ -120,7 +158,7 @@ class LineBotController(
                         LocalDate.of(2024, 3, 25)
                     )
                     */
-                }
+                //}
             }
 
         }

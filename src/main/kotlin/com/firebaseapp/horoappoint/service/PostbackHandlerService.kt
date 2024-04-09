@@ -5,6 +5,7 @@ import com.linecorp.bot.webhook.model.Event
 import com.linecorp.bot.webhook.model.ReplyEvent
 import org.springframework.stereotype.Service
 
+@Deprecated("Use LineBotController")
 @Service
 class PostbackHandlerService(
     val catalogService: CatalogService,

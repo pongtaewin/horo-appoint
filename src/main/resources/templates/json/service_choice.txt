@@ -197,7 +197,7 @@
             "action": {
               "type": "postback",
               "label": [# th:if="${single}"]"ยืนยันตัวเลือกนี้"[/][# th:unless="${single}"]"เลือกตัวเลือกนี้"[/],
-              "data": "serviceSelected?choice=[(${choice.id})]"
+              "data": "location?choice=[(${choice.id})]"
             },
             "gravity": "bottom"
           }
