@@ -1,11 +1,12 @@
 {
   "type": "bubble",
+  "size": "giga",
   "hero": {
     "type": "image",
-    "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/01_1_cafe.png",
+    "url": "https://storage.googleapis.com/horo-appoint.appspot.com/banner-default.jpg",
     "size": "full",
-    "aspectRatio": "20:13",
-    "aspectMode": "cover"
+    "aspectMode": "cover",
+    "aspectRatio": "20:13"
   },
   "body": {
     "type": "box",
@@ -41,44 +42,16 @@
         ]
       },
       {
-        "type": "text",
-        "text": "UID: [(${uid})]",
-        "margin": "xl",
-        "size": "xs",
-        "color": "#C0C0C0"
+        "type": "button",
+        "action": {
+          "type": "postback",
+          "label": "แสดงกลุ่มบริการ",
+          "data": "serviceCategory",
+          "displayText": "แสดงกลุ่มบริการ"
+        },
+        "style": "primary",
+        "margin": "lg"
       }
     ]
-  },
-  "footer": {
-    "type": "box",
-    "layout": "vertical",
-    "spacing": "sm",
-    "contents": [
-      {
-        "type": "button",
-        "style": "primary",
-        "action": {
-          "type": "postback",
-          "label": "รายการบริการ",
-          "data": "selectServiceCategory"
-        }
-      },
-      {
-        "type": "button",
-        "style": "link",
-        "action": {
-          "type": "postback",
-          "label": "คำถามที่พบบ่อย",
-          "data": "hello"
-        }
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [],
-        "margin": "sm"
-      }
-    ],
-    "flex": 0
   }
 }

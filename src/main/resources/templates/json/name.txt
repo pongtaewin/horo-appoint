@@ -1,0 +1,28 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กรุณาใส่ชื่อและนามสกุล",
+        "size": "xl",
+        "weight": "bold"
+      },
+      {
+        "type": "text",
+        "text": "กรุณาพิมพ์ชื่อและนามสกุลของท่าน\nลงในห้องแชท เพื่อใช้ในการระบุตัวตน\nและการชำระเงิน",
+        "wrap": true
+      }
+    ]
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://storage.googleapis.com/horo-appoint.appspot.com/system-name-guide.jpg",
+    "size": "full",
+    "aspectMode": "cover",
+    "aspectRatio": "93:33"
+  }
+}

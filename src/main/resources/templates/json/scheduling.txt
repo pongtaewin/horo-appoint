@@ -7,32 +7,43 @@
       "body": {
         "type": "box",
         "layout": "vertical",
-        "spacing": "none",
         "contents": [
-          {
-            "type": "text",
-            "text": "กำหนดเวลานัดหมาย",
-            "size": "lg",
-            "weight": "bold",
-            "color": "#00A040"
-          },
-          {
-            "type": "text",
-            "text": "แพ็กเกจ",
-            "size": "sm",
-            "margin": "lg",
-            "color": "#AAAAAA"
-          },
           {
             "type": "box",
             "layout": "vertical",
             "contents": [
               {
                 "type": "text",
-                "text": "[(${service.name})]",
-                "wrap": true,
-                "weight": "bold",
-                "size": "lg"
+                "text": "กำหนดเวลานัดหมาย",
+                "size": "xl",
+                "weight": "bold"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "บริการ",
+                    "size": "sm",
+                    "color": "#AAAAAA",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "text",
+                    "text": "[(${service.name})]",
+                    "size": "lg",
+                    "weight": "bold",
+                    "wrap": true
+                  },
+                  {
+                    "type": "text",
+                    "text": "[(${choice.name})]",
+                    "size": "md",
+                    "weight": "bold",
+                    "wrap": true
+                  }
+                ]
               },
               {
                 "type": "box",
@@ -40,49 +51,89 @@
                 "contents": [
                   {
                     "type": "text",
-                    "text": "[(${service.price})]",
-                    "wrap": true,
-                    "weight": "bold",
+                    "text": "[(${choice.price})]",
                     "size": "lg",
+                    "weight": "bold",
+                    "wrap": true,
                     "flex": 0
                   },
                   {
                     "type": "text",
                     "text": "บาท",
-                    "wrap": true,
-                    "weight": "bold",
                     "size": "sm",
-                    "flex": 0,
-                    "margin": "sm"
+                    "weight": "bold",
+                    "wrap": true,
+                    "margin": "sm",
+                    "flex": 0
                   }
                 ],
-                "justifyContent": "flex-start"
+                "margin": "sm"
               },
               {
                 "type": "box",
                 "layout": "horizontal",
                 "contents": [
                   {
-                    "type": "box",
-                    "layout": "baseline",
-                    "contents": [
-                      {
-                        "type": "icon",
-                        "url": "https://i.imgur.com/sNzZSYt.png",
-                        "size": "sm",
-                        "offsetTop": "xs",
-                        "offsetBottom": "xs"
-                      }
-                    ],
-                    "flex": 0,
-                    "margin": "none"
+                    "type": "text",
+                    "text": "[(${service.desc})]",
+                    "size": "xs",
+                    "wrap": true,
+                    "flex": 3
+                  },
+                  {
+                    "type": "separator",
+                    "margin": "sm"
                   },
                   {
                     "type": "text",
-                    "text": "ระยะเวลา [(${service.duration})]",
-                    "margin": "md",
+                    "text": "[(${choice.desc})]",
+                    "size": "xs",
+                    "wrap": true,
+                    "margin": "sm",
+                    "flex": 2
+                  }
+                ],
+                "margin": "md"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "สถานที่",
+                    "color": "#aaaaaa",
                     "size": "sm",
                     "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "flex": 3,
+                    "text": "[(${choice.location})]",
+                    "size": "sm",
+                    "margin": "md",
+                    "wrap": true
+                  }
+                ],
+                "margin": "md"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "ระยะเวลา",
+                    "color": "#aaaaaa",
+                    "size": "sm",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "flex": 3,
+                    "text": "[(${choice.duration})]",
+                    "size": "sm",
+                    "margin": "md"
                   }
                 ],
                 "spacing": "none",
@@ -90,106 +141,63 @@
               },
               {
                 "type": "box",
-                "layout": "horizontal",
+                "layout": "vertical",
                 "contents": [
                   {
+                    "type": "text",
+                    "text": "วันที่นัดหมาย",
+                    "size": "sm",
+                    "color": "#AAAAAA",
+                    "margin": "none",
+                    "flex": 1
+                  },
+                  {
                     "type": "box",
-                    "layout": "baseline",
+                    "layout": "horizontal",
                     "contents": [
                       {
-                        "type": "icon",
-                        "url": "https://i.imgur.com/rbHlAuW.png",
+                        "type": "text",
+                        "text": "[(${date.dow})]",
                         "size": "sm",
-                        "offsetTop": "xs",
-                        "offsetBottom": "xs"
+                        "weight": "bold",
+                        "wrap": true,
+                        "flex": 0
+                      },
+                      {
+                        "type": "text",
+                        "text": "[(${date.day})]",
+                        "size": "lg",
+                        "weight": "bold",
+                        "wrap": true,
+                        "flex": 0,
+                        "margin": "sm"
                       }
                     ],
-                    "flex": 0,
-                    "margin": "none"
+                    "justifyContent": "flex-start",
+                    "alignItems": "center",
+                    "margin": "xs"
                   },
                   {
                     "type": "text",
-                    "text": "[(${service.location})]",
-                    "margin": "md",
+                    "text": "[(${date.rel})]",
                     "size": "sm",
-                    "flex": 1
+                    "margin": "none"
                   }
                 ],
-                "margin": "sm"
-              },
-              {
-                "type": "text",
-                "text": "[(${service.desc})]",
-                "wrap": true,
-                "size": "sm",
-                "margin": "md"
+                "margin": "lg"
               }
-            ],
-            "margin": "none"
-          },
-          {
-            "type": "text",
-            "text": "วันที่นัดหมาย",
-            "size": "sm",
-            "margin": "lg",
-            "color": "#AAAAAA"
-          },
-          {
-            "type": "text",
-            "text": "[(${date.dow})]",
-            "wrap": true,
-            "weight": "bold",
-            "size": "md"
-          },
-          {
-            "type": "text",
-            "text": "[(${date.day})]",
-            "wrap": true,
-            "weight": "bold",
-            "size": "lg"
-          },
-          {
-            "type": "text",
-            "text": "[(${date.rel})]",
-            "size": "sm"
-          },
-          {
-            "type": "box",
-            "layout": "vertical",
-            "contents": [
-              {
-                "type": "button",
-                "action": {
-                  "type": "datetimepicker",
-                  "label": "แก้ไขวันที่",
-                  "data": "dateChange",
-                  "mode": "date",
-                  "initial": "[(${date.change.initial})]",
-                  "min": "[(${date.change.min})]",
-                  "max": "[(${date.change.max})]"
-                },
-                "height": "md",
-                "style": "secondary"
-              },
-              {
-                "type": "button",
-                "action": {
-                  "type": "postback",
-                  "label": "เปลี่ยนแพ็กเกจ",
-                  "data": "changePackage"
-                },
-                "height": "md"
-              }
-            ],
-            "margin": "lg"
-          }
-        ],
-        "margin": "none"
-      },
-      "styles": {
-        "header": {
-          "backgroundColor": "#80FF40"
-        }
+             ],
+             "flex": 1
+           },
+           {
+             "type": "text",
+             "text": "เลือกช่วงเวลาที่ต้องการได้ทางด้านขวา",
+             "size": "sm",
+             "margin": "lg",
+             "align": "center",
+             "color": "#AAAAAA"
+           }
+        ]
       }
     },
     {
@@ -319,7 +327,8 @@
                       "action": {
                         "type": "postback",
                         "label": "[(${row.time[0]})]",
-                        "data": "chooseTime?frame=[(${row.frame[0]})]"
+                        "data": "schedule?frame=[(${row.frame[0]})]",
+                        "displayText": "[(${row.time[0]})]"
                       },
                       "style": "secondary",
                       "height": "sm",
@@ -331,7 +340,8 @@
                       "action": {
                         "type": "postback",
                         "label": "[(${row.time[1]})]",
-                        "data": "chooseTime?frame=[(${row.frame[1]})]"
+                        "data": "schedule?frame=[(${row.frame[1]})]",
+                        "displayText": "[(${row.time[1]})]"
                       },
                       "style": "secondary",
                       "height": "sm",
@@ -350,7 +360,8 @@
                       "action": {
                         "type": "postback",
                         "label": "[(${row.time[2]})]",
-                        "data": "chooseTime?frame=[(${row.frame[2]})]"
+                        "data": "schedule?frame=[(${row.frame[2]})]",
+                        "displayText": "[(${row.time[2]})]"
                       },
                       "style": "secondary",
                       "height": "sm",
@@ -362,7 +373,8 @@
                       "action": {
                         "type": "postback",
                         "label": "[(${row.time[3]})]",
-                        "data": "chooseTime?frame=[(${row.frame[3]})]"
+                        "data": "schedule?frame=[(${row.frame[3]})]",
+                        "displayText": "[(${row.time[3]})]"
                       },
                       "style": "secondary",
                       "height": "sm",

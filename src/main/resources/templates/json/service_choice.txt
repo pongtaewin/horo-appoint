@@ -40,7 +40,7 @@
             "type": "box",
             "layout": "baseline",
             "contents": [
-              [# th:unless="${single}"]{
+              [# th:unless="${same_price}"]{
                 "type": "text",
                 "text": "เริ่มต้น",
                 "size": "sm",
@@ -51,7 +51,7 @@
                 "text": "[(${service.price})]",
                 "weight": "bold",
                 "size": "lg",
-                [# th:unless="${single}"]"margin": "sm",[/]
+                [# th:unless="${same_price}"]"margin": "sm",[/]
                 "flex": 0
               },
               {
@@ -196,8 +196,9 @@
             "style": "primary",
             "action": {
               "type": "postback",
-              "label": [# th:if="${single}"]"ยืนยันตัวเลือกนี้"[/][# th:unless="${single}"]"เลือกตัวเลือกนี้"[/],
-              "data": "location?choice=[(${choice.id})]"
+              "label": "[# th:if="${same_price}"]ยืนยัน[/][# th:unless="${same_price}"]เลือก[/]",
+              "data": "select?choice=[(${choice.id})]",
+              "displayText": "[(${choice.name})]"
             },
             "gravity": "bottom"
           }

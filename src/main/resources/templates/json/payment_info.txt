@@ -68,6 +68,28 @@
                         "contents": [
                             {
                                 "type": "text",
+                                "text": "ตัวเลือก",
+                                "color": "#aaaaaa",
+                                "size": "sm",
+                                "flex": 1
+                            },
+                            {
+                                "type": "text",
+                                "text": "[(${choice})]",
+                                "wrap": true,
+                                "color": "#666666",
+                                "size": "sm",
+                                "flex": 4
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "baseline",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "text",
                                 "text": "สถานที่",
                                 "color": "#aaaaaa",
                                 "size": "sm",
@@ -149,31 +171,6 @@
                             }
                         ]
                     }
-					[# th:if="${details}"]
-					,
-					{
-                        "type": "box",
-                        "layout": "baseline",
-                        "spacing": "sm",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "ข้อมูล",
-                                "color": "#aaaaaa",
-                                "size": "sm",
-                                "flex": 1
-                            },
-                            {
-                                "type": "text",
-                                "text": "[(${details})]",
-                                "wrap": true,
-                                "color": "#666666",
-                                "size": "sm",
-                                "flex": 4
-                            }
-                        ]
-                    }
-					[/]
                 ]
             },
             {
@@ -189,7 +186,7 @@
                     },
                     {
                         "type": "text",
-                        "text": "[(${subtotal})].-",
+                        "text": "[(${subtotal})] บาท",
                         "size": "xl",
                         "margin": "none",
                         "flex": 3,
@@ -231,16 +228,6 @@
                             "uri": "https://line.me/R/nv/cameraRoll/single"
                         },
                         "margin": "md"
-                    },
-                    {
-                        "type": "button",
-                        "style": "link",
-                        "height": "sm",
-                        "action": {
-                            "type": "postback",
-                            "label": "ขอเลขที่บัญชี",
-                            "data": "paymentId"
-                        }
                     }
                 ],
                 "flex": 0,

@@ -1,39 +1,29 @@
 package com.firebaseapp.horoappoint.controller
 
 import com.firebaseapp.horoappoint.HoroAppointApplication
-import com.firebaseapp.horoappoint.model.*
-import com.firebaseapp.horoappoint.model.enums.SelectionState
+import com.firebaseapp.horoappoint.entity.Customer
 import com.firebaseapp.horoappoint.repository.CustomerRepository
-import com.firebaseapp.horoappoint.repository.CustomerSelectionRepository
-import com.firebaseapp.horoappoint.service.*
-import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE
-import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE_CATEGORY
-import com.firebaseapp.horoappoint.service.CatalogService.Companion.SELECT_SERVICE_CHOICE
+import com.firebaseapp.horoappoint.service.CatalogService
+import com.firebaseapp.horoappoint.service.MessageService
+import com.firebaseapp.horoappoint.service.PaymentService
+import com.firebaseapp.horoappoint.service.SchedulingService
 import com.linecorp.bot.messaging.client.MessagingApiClient
 import com.linecorp.bot.spring.boot.handler.annotation.EventMapping
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
 import com.linecorp.bot.webhook.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
-import kotlin.jvm.optionals.getOrNull
 
 
 @LineMessageHandler
 @Controller
 class LineBotController(
     private val messagingApiClient: MessagingApiClient,
-    //private val messagingApiBlobClient: MessagingApiBlobClient,
-    private val customers: CustomerRepository,
+    private val customerRepository: CustomerRepository,
     private val messageService: MessageService,
     private val catalogService: CatalogService,
-    //private val postbackHandlerService: PostbackHandlerService,
-    private val paymentMessageService: PaymentService,
-    //private val appointmentRepository: AppointmentRepository,
-    //private val schedulingService: SchedulingService,
-    private val customerSelectionRepository: CustomerSelectionRepository,
-    private val customerInfoService: CustomerInfoService,
     private val schedulingService: SchedulingService,
-    private val paymentService: PaymentService
+    private val paymentService: PaymentService,
 ) {
 
     private val log = LoggerFactory.getLogger(HoroAppointApplication::class.java)
@@ -59,17 +49,18 @@ class LineBotController(
     }
 
     companion object {
-        val SERVICE_CATEGORY = SELECT_SERVICE_CATEGORY
-        val SERVICE = SELECT_SERVICE
-        val SERVICE_CHOICE = SELECT_SERVICE_CHOICE
+        val SERVICE_CATEGORY = "serviceCategory"
+        val SERVICE = "service"
+        val SERVICE_CHOICE = "serviceChoice"
+        val SELECT = "select"
         val LOCATION = "location"
         val DATE = "date"
         val TIME = "time"
+        val SCHEDULE = "schedule"
         val NAME = "name"
         val BOOKING_CONFIRM = "bookingConfirm"
         val PAYMENT = "payment"
         val PAYMENT_ID = "paymentID"
-        val SLIP_CONFIRM = "slipConfirm"
         val SLIP_UPLOADED = "slipUploaded"
     }
 
@@ -81,86 +72,48 @@ class LineBotController(
             SERVICE_CATEGORY -> catalogService.handleServiceCategoryEvent(event, params)
             SERVICE -> catalogService.handleServiceEvent(event, params)
             SERVICE_CHOICE -> catalogService.handleServiceChoiceEvent(event, params)
+            SELECT -> schedulingService.handleSelectEvent(event,params)
             LOCATION -> schedulingService.handleLocationEvent(event, params)
             DATE -> schedulingService.handleDateEvent(event, params)
-            TIME -> println("todo") //schedulingService.handleTimeEvent(event, params) //scheduling, implemented
-            NAME -> println("todo") //schedulingService.handleNameEvent(event, params) //not implemented, but easy
-            BOOKING_CONFIRM -> println("todo") //schedulingService.handleConfirmEvent(event, params) // reuse the payment template
+            TIME -> schedulingService.handleTimeEvent(event, params)
+            SCHEDULE -> schedulingService.handleScheduleEvent(event, params)
+            NAME -> schedulingService.handleNameEvent(event, params)
+            BOOKING_CONFIRM -> schedulingService.handleConfirmEvent(event, params)
             PAYMENT -> paymentService.handlePaymentEvent(event, params)
             PAYMENT_ID -> paymentService.handlePaymentIDEvent(event, params)
-            SLIP_CONFIRM -> println("todo") //paymentService.handleSlipConfirmEvent(event, params) // reuse the slipUploaded template
             SLIP_UPLOADED -> paymentService.handleSlipUploadedEvent(event, params)
             else -> return
         }
     }
 
-    //แสดงกลุ่มบริการ
-    //แสดงบริการในกลุ่ม
-    //เลือกบริการ
-    //เลือก
-
     @EventMapping
     fun handleMessageEvent(event: MessageEvent) {
         log.info("[LB] Message Event: $event")
         when (val message = event.message) {
+            is TextMessageContent -> {
+                val customer = customerRepository.findByEvent(event).get()
+                when (customer.state) {
+                    "name" -> {
+                        customerRepository.save(customer.apply { fullName = message.text })
+                        schedulingService.handleNameReceivedEvent(event, mapOf())
+                    }
+                }
+            }
+
             is ImageMessageContent -> {
                 paymentService.handleUploadSlipEvent(event, mapOf())
             }
 
-            is TextMessageContent -> {
-                /*val selection = customerSelectionRepository.findByCustomer_LineUID(event.source.userId()).getOrNull()
-                if (selection?.getSelectionState() == SelectionState.CUSTOMER_NAME_REQUIRED) {
-                    customerInfoService.handleEvent(event, CustomerInfoService.NAME_RECEIVED, mapOf())
-                } else when (message.text) {
-
-                 */
-                    /*"QR" -> paymentMessageService.sendPaymentInfoMessages(
-                        event,
-                        Appointment().apply {
-                            customer = Customer().apply {
-                                fullName = "สมาทาน ธรรมศีล"
-                            }
-                            serviceChoice = ServiceChoice().apply {
-                                name = "ดูดวงระยะสั้น 15 นาที"
-                                serviceType = ServiceType.MEETUP
-                                price = 240.0
-                                durationMinutes = 15
-                                paddingAfterMinutes = 15
-                                paddingBeforeMinutes = 0
-                            }
-                            timeframe = Timeframe().apply {
-                                startTime = Instant.parse("2024-04-09T09:00:00.00Z")
-                                endTime = Instant.parse("2024-04-09T09:15:00.00Z")
-                            }
-                            location = Location().apply {
-                                this.province = "จังหวัดกรุงเทพมหานคร"
-                                this.district = "เขตวังทองหลาง"
-                                this.subdistrict = "แขวงคลองเจ้าคุณสิงห์"
-                            }
-                            created = Instant.parse("2024-04-05T12:03:00.00Z")
-                        })
-
-                     */
-                    /*
-                    "Schedule" -> schedulingService.sendSchedulingMessage(
-                        event,
-                        CustomerSelection().apply {
-                            service = Service().apply {
-                                name = "แพ็กเกจดูดวงเร่งด่วน"
-                                description = "สื่อจิตสำรวจกรรม ปรับพื้นดวง\\nพร้อมให้คำแนะนำแนวทางแก้ปัญหา\\n" +
-                                        "โดยการพิมพ์ตอบคำถามใน\\nช่องการสนทนาทางแซทไลน์"
-                                //serviceType = ServiceType.ONLINE_CHAT
-                                //durationType = DurationType.TIMED
-                                //durationMinutes = 15
-                            }
-                            //price = 240.0
-                        },
-                        LocalDate.of(2024, 3, 25)
+            is LocationMessageContent -> {
+                schedulingService.handleLocationReceivedEvent(
+                    event, mapOf(
+                        "lat" to message.latitude.toString(),
+                        "lon" to message.longitude.toString(),
+                        "title" to message.title,
+                        "desc" to message.address
                     )
-                    */
-                //}
+                )
             }
-
         }
     }
 
@@ -169,12 +122,12 @@ class LineBotController(
         log.info("[LB] Follow Event: $event")
 
         val uid = event.source.userId()
-        customers.findByLineUID(uid).ifPresentOrElse(
+        customerRepository.findByLineUID(uid).ifPresentOrElse(
             { customer -> messageService.sendFollowMessage(event, customer) },
             {
                 messagingApiClient.getProfile(uid).whenComplete { profile, throwable ->
                     throwable?.let { throw throwable }
-                    messageService.sendFollowMessage(event, customers.save(Customer().apply {
+                    messageService.sendFollowMessage(event, customerRepository.save(Customer().apply {
                         lineUID = uid
                         displayName = profile.body.displayName
                         displayImage = profile.body.pictureUrl.toURL()

@@ -1,0 +1,156 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "รายละเอียดตำแหน่ง",
+            "weight": "bold",
+            "size": "xl"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "md",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "จังหวัด",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${province})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "อำเภอ/เขต",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${district})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ตำบล/แขวง",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${subdistrict})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ระยะทาง\nจากสำนักฯ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1,
+                "wrap": true
+              },
+              {
+                "type": "text",
+                "text": "[(${km})] กิโลเมตร",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "size": "sm",
+            "align": "center",
+            "color": "#aaaaaa",
+            "text": "โปรดตรวจสอบระยะทางให้ตรงกับที่เลือกไว้\nตรวจสอบความถูกต้องของสถานที่รับบริการแล้วกดยืนยัน",
+            "wrap": true
+          },
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "md",
+            "action": {
+              "type": "postback",
+              "label": "ยืนยันการส่งข้อมูล",
+              "data": "date",
+              "displayText": "ยืนยันการส่งข้อมูล"
+            },
+            "margin": "lg"
+          },
+          {
+            "type": "text",
+            "size": "xxs",
+            "align": "center",
+            "color": "#aaaaaa",
+            "text": "ข้อมูลโดย Google Maps API",
+            "wrap": true
+          }
+        ],
+        "flex": 0,
+        "margin": "lg"
+      }
+    ]
+  }
+}

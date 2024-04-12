@@ -1,4 +1,4 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -35,13 +35,24 @@ class Service {
     @Column(name = "min_price", nullable = false)
     var minPrice: Double? = null
 
+    @JdbcTypeCode(SqlTypes.DOUBLE)
+    @Column(name = "max_price", nullable = false)
+    var maxPrice: Double? = null
+
     @JdbcTypeCode(SqlTypes.SMALLINT)
     @Column(name = "choices_count", nullable = false)
     var choicesCount: Int? = null
+
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "visible", nullable = false)
+    var visible: Boolean? = null
 
     fun getDisplayImageOrDefault() =
         displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default-small.jpg")
 
     fun getMinPriceRounded(): String =
         DecimalFormat(if (minPrice!! == minPrice!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(minPrice!!)
+
+    fun getMaxPriceRounded(): String =
+        DecimalFormat(if (maxPrice!! == maxPrice!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(maxPrice!!)
 }

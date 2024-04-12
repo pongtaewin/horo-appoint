@@ -38,11 +38,10 @@ Spring Boot
 Line Bot SDK / Spring Boot
 Jackson (JSON)
 
-Firebase Authenication
 Firebase Hosting
 Google Cloud Storage
 Google Cloud SQL
-LocationIQ
+Google Maps API (Geocoding)
  */
 
 
@@ -51,25 +50,6 @@ LocationIQ
 class HoroAppointApplication {
     // logger
     private val log = LoggerFactory.getLogger(HoroAppointApplication::class.java)
-
-    /*
-    @Autowired
-    //@EventListener(ApplicationReadyEvent::class)
-    fun test(locationService: LocationService) {
-        val (lat, lon) = "13.105607569881593" to "100.91487689675394"
-        val result = locationService.retrieveLocationFromAPI(lat, lon)
-        if (result == null) log.warn("result is null from lat:$lat, lon:$lon")
-        else {
-            with(result["address"]) {
-                log.info("state: " + get("state"))
-                log.info("town: " + get("town"))
-                log.info("district: " + get("district"))
-                log.info("municipality: " + get("municipality"))
-                log.info("postcode: " + get("postcode"))
-            }
-        }
-    }
-     */
 
 
     @Configuration
@@ -150,24 +130,5 @@ class HoroAppointApplication {
             SpringTemplateEngine().apply { templateResolvers.forEach(::addTemplateResolver) }
 
     }
-
-    /* todo temp in HoroAppointApplication
-
-        // Do not call db, bk before initializeFirebase()
-        private val db by lazy { FirestoreClient.getFirestore() }
-        private val bk by lazy { StorageClient.getInstance().bucket() }
-        private val st by lazy { StorageOptions.getDefaultInstance().service }
-
-        @EventListener(ApplicationReadyEvent::class)
-        fun initializeFirebase() {
-            FirebaseApp.initializeApp(
-                FirebaseOptions.builder()
-                    .setCredentials(GoogleCredentials.getApplicationDefault())
-                    .setProjectId("horo-appoint")
-                    .setStorageBucket("horo-appoint.appspot.com")
-                    .build()
-            )
-        }
-    */
 }
 

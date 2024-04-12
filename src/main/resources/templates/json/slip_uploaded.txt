@@ -15,7 +15,7 @@
   },
   "hero": {
     "type": "image",
-    "url": "[(${})]",
+    "url": "[(${uri})]",
     "aspectMode": "fit",
     "size": "full"
   },

@@ -1,4 +1,4 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode

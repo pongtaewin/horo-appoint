@@ -1,0 +1,28 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "กรุณาเลือกตำแหน่ง",
+        "size": "xl",
+        "weight": "bold"
+      },
+      {
+        "type": "text",
+        "text": "กรุณาเลือกตำแหน่งที่ต้องการรับบริการ",
+        "wrap": true
+      }
+    ]
+  },
+  "hero": {
+    "type": "image",
+    "url": "https://storage.googleapis.com/horo-appoint.appspot.com/system-location-guide.jpg",
+    "size": "full",
+    "aspectMode": "cover",
+    "aspectRatio": "16:9"
+  }
+}

@@ -1,4 +1,4 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -30,4 +30,7 @@ class Customer {
     @Column(name = "display_image")
     var displayImage: URL? = null
 
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "state")
+    var state: String? = null
 }

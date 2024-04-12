@@ -94,20 +94,10 @@
             "action": {
               "type": "postback",
               "label": "ยืนยันการส่งข้อมูล",
-              "data": "slipUploaded"
+              "data": "slipUploaded",
+              "displayText": "ยืนยันการส่งข้อมูล"
             },
             "margin": "lg"
-          },
-          {
-            "type": "button",
-            "style": "link",
-            "height": "md",
-            "action": {
-              "type": "uri",
-              "uri": "https://line.me/R/nv/cameraRoll/single",
-              "label": "อัปโหลดสลิปใหม่"
-            },
-            "margin": "none"
           }
         ],
         "flex": 0,

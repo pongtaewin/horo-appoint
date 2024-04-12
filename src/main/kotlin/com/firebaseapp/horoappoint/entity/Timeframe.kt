@@ -1,4 +1,4 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
 import com.firebaseapp.horoappoint.settings.ThaiFormatter
 import jakarta.persistence.*
@@ -21,6 +21,24 @@ class Timeframe {
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
     @Column(name = "end_time", nullable = false)
     var endTime: Instant? = null
+
+    @JdbcTypeCode(SqlTypes.TIMESTAMP)
+    @Column(name = "padded_start_time", nullable = false)
+    var paddedStartTime: Instant? = null
+
+    @JdbcTypeCode(SqlTypes.TIMESTAMP)
+    @Column(name = "padded_end_time", nullable = false)
+    var paddedEndTime: Instant? = null
+
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "approved", nullable = false)
+    var approved: Boolean? = false
+
+    @OneToOne(orphanRemoval = false)
+    @JoinColumn(name = "appointment_id")
+    var appointment: Appointment? = null
+
+
 
     fun getStart() = ThaiFormatter.asZone(startTime!!)
     fun getEnd() = ThaiFormatter.asZone(endTime!!)

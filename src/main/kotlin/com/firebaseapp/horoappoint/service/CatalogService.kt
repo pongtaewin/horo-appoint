@@ -1,8 +1,7 @@
 package com.firebaseapp.horoappoint.service
 
-import com.firebaseapp.horoappoint.LineBotEventService
-import com.firebaseapp.horoappoint.repository.ServiceChoiceRepository
 import com.firebaseapp.horoappoint.repository.ServiceCategoryRepository
+import com.firebaseapp.horoappoint.repository.ServiceChoiceRepository
 import com.firebaseapp.horoappoint.repository.ServiceRepository
 import com.linecorp.bot.messaging.model.PostbackAction
 import com.linecorp.bot.messaging.model.QuickReplyItem
@@ -10,20 +9,17 @@ import com.linecorp.bot.webhook.model.Event
 import com.linecorp.bot.webhook.model.ReplyEvent
 import org.springframework.stereotype.Service
 import org.springframework.ui.ModelMap
+import java.net.URI
 
 @Service
 class CatalogService(
-    val messageService: MessageService,
-    val customerInfoService: CustomerInfoService,
-    val serviceRepository: ServiceRepository,
+    private val messageService: MessageService,
     private val serviceCategoryRepository: ServiceCategoryRepository,
+    private val serviceRepository: ServiceRepository,
     private val serviceChoiceRepository: ServiceChoiceRepository
 ) {
-
-
-    //todo ServiceGroup -> ServiceCategory
     fun <T> handleServiceCategoryEvent(event: T, params: Map<String, String>) where T : Event, T : ReplyEvent {
-        val categories = serviceCategoryRepository.findAllByOrderByIdAsc()
+        val categories = serviceCategoryRepository.findAllByVisibleTrueOrderByIdAsc()
 
         messageService.replyMessage(
             event,
@@ -46,7 +42,7 @@ class CatalogService(
 
     fun <T> handleServiceEvent(event: T, params: Map<String, String>) where T : Event, T : ReplyEvent {
         val category = serviceCategoryRepository.findById(params["id"]!!.toLong()).get()
-        val services = serviceRepository.findByCategoryOrderByIdAsc(category)
+        val services = serviceRepository.findByCategoryAndVisibleTrueOrderByIdAsc(category)
 
         messageService.replyMessage(
             event,
@@ -68,16 +64,18 @@ class CatalogService(
                             "desc" to service.description!!,
                             "price" to service.getMinPriceRounded(),
                             "choices" to service.choicesCount!!,
-                            "image" to service.getDisplayImageOrDefault()
+                            "image" to service.getDisplayImageOrDefault(),
+                            "same_price" to (service.minPrice == service.maxPrice)
                         )
                     })
                 },
                 "เลือกบริการที่ต้องการ",
                 QuickReplyItem(
+                    URI("https://storage.googleapis.com/horo-appoint.appspot.com/category.png"),
                     PostbackAction(
-                        "เปลี่ยนหมวดหมู่บริการ",
-                        "selectServiceCategory",
-                        null, null, null, null
+                        "เปลี่ยนกลุ่มบริการ",
+                        "serviceCategory",
+                        "เปลี่ยนกลุ่มบริการ", null, null, null
                     )
                 )
             )
@@ -86,7 +84,7 @@ class CatalogService(
 
     fun <T> handleServiceChoiceEvent(event: T, params: Map<String, String>) where T : Event, T : ReplyEvent {
         val service = serviceRepository.findById(params["id"]!!.toLong()).get()
-        val choices = serviceChoiceRepository.findByServiceOrderByIdAsc(service)
+        val choices = serviceChoiceRepository.findByServiceAndVisibleTrueOrderByIdAsc(service)
         messageService.replyMessage(
             event,
             messageService.processTemplateAndMakeMessage(
@@ -109,44 +107,29 @@ class CatalogService(
                             "name" to service.name!!,
                             "desc" to service.description!!,
                             "price" to service.getMinPriceRounded(),
-                            "image" to service.getDisplayImageOrDefault()
+                            "image" to service.getDisplayImageOrDefault(),
+                            "same_price" to (service.minPrice != service.maxPrice)
                         )
                     )
-                    put("single", service.choicesCount == 1)
                 },
                 "เลือกบริการที่ต้องการ",
                 QuickReplyItem(
+                    URI("https://storage.googleapis.com/horo-appoint.appspot.com/category.png"),
                     PostbackAction(
-                        "เปลี่ยนหมวดหมู่บริการ",
-                        "selectServiceCategory",
-                        null, null, null, null
+                        "เปลี่ยนกลุ่มบริการ",
+                        "serviceCategory",
+                        "เปลี่ยนกลุ่มบริการ", null, null, null
                     )
                 ),
                 QuickReplyItem(
+                    URI("https://storage.googleapis.com/horo-appoint.appspot.com/service.png"),
                     PostbackAction(
                         "เปลี่ยนบริการ",
-                        "selectService?id=${service.category!!.id!!}",
-                        null, null, null, null
+                        "service?id=${service.category!!.id!!}",
+                        "เปลี่ยนบริการ", null, null, null
                     )
                 )
             )
         )
     }
-
-    fun <T> handleEvent(event: T, query: String, params: Map<String, String>) where T : Event, T : ReplyEvent {
-        when (query) {
-            SELECT_SERVICE_CATEGORY -> handleServiceCategoryEvent(event, params)
-            SELECT_SERVICE -> handleServiceEvent(event, params)
-            SELECT_SERVICE_CHOICE -> handleServiceChoiceEvent(event, params)
-        }
-    }
-
-    val PARAMS = listOf(SELECT_SERVICE_CATEGORY, SELECT_SERVICE, SELECT_SERVICE_CHOICE)
-
-    companion object {
-        const val SELECT_SERVICE_CATEGORY = "selectServiceCategory"
-        const val SELECT_SERVICE = "selectService"
-        const val SELECT_SERVICE_CHOICE = "selectServiceChoice"
-    }
-
 }

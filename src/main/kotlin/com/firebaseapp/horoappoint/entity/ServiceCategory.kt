@@ -1,4 +1,4 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
@@ -28,4 +28,7 @@ class ServiceCategory {
     fun getDisplayImageOrDefault() =
         displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default.jpg")
 
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "visible", nullable = false)
+    var visible: Boolean? = null
 }

@@ -28,7 +28,6 @@
             "type": "text",
             "text": "[(${category.desc})]",
             "wrap": true,
-            "color": "#8c8c8c",
             "size": "sm"
           }
         ],
@@ -43,8 +42,9 @@
             "type": "button",
             "action": {
               "type": "postback",
-              "label": "แสดงบริการ",
-              "data": "selectService?id=[(${category.id})]"
+              "label": "แสดงบริการในกลุ่ม",
+              "displayText": "[(${category.name})]",
+              "data": "service?id=[(${category.id})]"
             },
             "style": "primary"
           }

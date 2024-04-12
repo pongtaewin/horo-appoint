@@ -19,7 +19,6 @@
             "type": "text",
             "text": "กลุ่มบริการที่เลือก",
             "size": "xs",
-            "color": "#8c8c8c",
             "wrap": true
           },
           {
@@ -33,7 +32,6 @@
             "type": "text",
             "text": "[(${category.desc})]",
             "size": "sm",
-            "color": "#8c8c8c",
             "wrap": true
           }
         ],
@@ -86,14 +84,13 @@
                 "size": "lg"
               }
             ],
-            "flex": 2,
             "margin": "md"
           },
           {
             "type": "box",
             "layout": "baseline",
             "contents": [
-              [# th:if="${service.choices} > 1"]
+              [# th:unless="${service.same_price}"]
               {
                 "type": "text",
                 "text": "เริ่มต้น",
@@ -107,7 +104,7 @@
                 "text": "[(${service.price})]",
                 "weight": "bold",
                 "size": "lg",
-                [# th:if="${service.choices} > 1"]"margin": "sm",[/]
+                [# th:unless="${service.same_price}"]"margin": "sm",[/]
                 "flex": 0
               },
               {
@@ -150,8 +147,9 @@
             "style": "primary",
             "action": {
               "type": "postback",
-              "label": "เลือกบริการนี้",
-              "data": "selectServiceChoice?id=[(${service.id})]"
+              "label": "เลือกบริการ",
+              "displayText": "[(${service.name})]",
+              "data": "serviceChoice?id=[(${service.id})]"
             }
           }
         ]

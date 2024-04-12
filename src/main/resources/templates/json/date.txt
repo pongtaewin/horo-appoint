@@ -1,0 +1,125 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "กรุณาเลือกวันที่รับบริการ",
+            "weight": "bold",
+            "size": "xl"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "md",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "บริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${service})]",
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ตัวเลือก",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${choice})]",
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ระยะเวลา",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${duration})]",
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "text",
+            "size": "sm",
+            "align": "center",
+            "color": "#aaaaaa",
+            "text": "ระบบจะเปิดให้จองล่วงหน้าไม่เกิน 6 เดือน\nและไม่น้อยกว่า 4 ชั่วโมงก่อนเวลานัดหมาย\n(สำหรับกิจกรรมที่ใช้เวลาไม่เกิน 2 ชั่วโมง)",
+            "wrap": true
+          },
+          {
+            "type": "button",
+            "style": "primary",
+            "height": "md",
+            "action": {
+              "type": "datetimepicker",
+              "label": "เลือกวันที่",
+              "data": "time",
+              "mode": "date",
+              "initial": "[(${initial})]",
+              "max": "[(${max})]",
+              "min": "[(${min})]"
+            },
+            "margin": "lg"
+          }
+        ],
+        "flex": 0,
+        "margin": "lg"
+      }
+    ]
+  }
+}

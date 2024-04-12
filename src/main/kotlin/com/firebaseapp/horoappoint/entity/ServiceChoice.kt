@@ -1,6 +1,5 @@
-package com.firebaseapp.horoappoint.model
+package com.firebaseapp.horoappoint.entity
 
-import com.firebaseapp.horoappoint.model.enums.ServiceType
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
@@ -50,6 +49,10 @@ class ServiceChoice {
     @JdbcTypeCode(SqlTypes.SMALLINT)
     @Column(name = "padding_after_minutes")
     var paddingAfterMinutes: Int? = null
+
+    @JdbcTypeCode(SqlTypes.BOOLEAN)
+    @Column(name = "visible", nullable = false)
+    var visible: Boolean? = null
 
     fun getPriceRounded(): String =
         DecimalFormat(if (price!! == price!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(price!!)
