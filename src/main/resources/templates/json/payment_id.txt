@@ -75,7 +75,7 @@
               },
               {
                 "type": "text",
-                "text": "กสิกรไทย\n(Kasikorn Bank Co, Ltd.)",
+                "text": "ธนาคารกสิกรไทย (KBANK)",
                 "wrap": true,
                 "color": "#666666",
                 "size": "sm",
@@ -119,7 +119,7 @@
               },
               {
                 "type": "text",
-                "text": "นายกิตติศักดิ์ นาคพงศ์พิมาน",
+                "text": "นาย กิตติศักดิ์ นาคพงศ์พิมาน",
                 "wrap": true,
                 "color": "#666666",
                 "size": "sm",
@@ -131,23 +131,45 @@
       },
       {
         "type": "box",
-        "layout": "vertical",
+        "layout": "horizontal",
         "contents": [
           {
-            "type": "text",
-            "text": "เลขที่บัญชี",
-            "size": "md",
-            "margin": "lg",
-            "weight": "bold"
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "เลขที่บัญชี",
+                "size": "sm",
+                "margin": "none",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "007-2-90556-3",
+                "size": "xl",
+                "margin": "none",
+                "weight": "bold",
+                "align": "center"
+              }
+            ],
+            "justifyContent": "center",
+            "alignItems": "center"
           },
           {
-            "type": "text",
-            "text": "007-2-90556-3",
-            "size": "xxl",
-            "margin": "none",
-            "flex": 3,
-            "weight": "bold",
-            "align": "center"
+            "type": "button",
+            "action": {
+              "type": "postback",
+              "label": "คัดลอก",
+              "data": " ",
+              "inputOption": "openKeyboard",
+              "fillInText": "007-2-90556-3"
+            },
+            "height": "sm",
+            "flex": 0,
+            "offsetTop": "none",
+            "offsetStart": "none",
+            "style": "secondary"
           }
         ],
         "justifyContent": "center",

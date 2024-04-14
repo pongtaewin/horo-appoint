@@ -55,6 +55,10 @@ class MessageService(
         reply(event, listOf(*messages))
     }
 
+    fun pushMessage(customer: Customer, vararg messages: Message) {
+        messagingApiClient.pushMessage(null, PushMessageRequest(customer.lineUID!!, listOf(*messages), false, null))
+    }
+
     private fun reply(event: ReplyEvent, messages: List<Message>) {
         messagingApiClient.replyMessage(ReplyMessageRequest(event.replyToken(), messages, false))
     }

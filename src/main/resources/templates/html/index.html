@@ -4,11 +4,35 @@
 <body>
 <div id="layout" class="content pure-g">
 
-    <div id="nav" class="pure-u" th:replace="~{html/fragments/side_menu.html :: side_menu}"></div>
+    <!--<div id="nav" class="pure-u" th:replace="~{html/fragments/side_menu.html :: side_menu}"></div>-->
 
     <div id="list" class="pure-u-1">
-        <div class="email-item pure-g" th:each="tab: ${tabs}"
-             th:classappend="${tab.selected ? 'email-item-selcted' : ''}+${tab.unread ? 'email-item-unread' : ''}">
+        <form id="fMain" class="email-item pure-form pure-form-aligned" style="background: #dddddd" th:action="@{/}"
+              method="get">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="search" style="width:4em">ค้นหา</label>
+                    <input type="text" id="search" name="search" placeholder="ใส่คำค้นหา"
+                           th:value="${search != null} ? ${search} : ''"/>
+                </div>
+                <div class="pure-control-group">
+                    <label for="filter" style="width:4em">ตัวกรอง</label>
+                    <select id="filter" name="filter">
+                        <option value="all" th:selected="${filter == 'all'}">ทั้งหมด</option>
+                        <optgroup label="สถานะ"></optgroup>
+                        <option value="payment" th:selected="${filter == 'payment'}">รอชำระเงิน</option>
+                        <option value="confirmation" th:selected="${filter == 'confirmation'}">รอตรวจสอบ</option>
+                        <option value="ready" th:selected="${filter == 'ready'}">พร้อมให้บริการ</option>
+                        <option value="finished" th:selected="${filter == 'finished'}">เสร็จสิ้น</option>
+                    </select>
+                    <input type="hidden" id="selected" name="selected" th:value="${selected}"/>
+                    <button type="submit" class="pure-button pure-button-primary">ค้นหา</button>
+                </div>
+            </fieldset>
+        </form>
+        <div class="email-item email-item-unread pure-g" th:each="tab: ${tabs}"
+             th:style="'border-left-color:'+${tab.color}"
+             th:classappend="${tab.picked == 'true'} ? 'email-item-selcted' : ''">
             <div class="pure-u">
                 <img width="64" height="64" th:alt="'Avatar of '+${tab.name}" class="email-avatar" th:src="${tab.src}">
             </div>
@@ -16,45 +40,95 @@
             <div class="pure-u-3-4">
                 <h5 class="email-name" th:text="${tab.name}"></h5>
                 <h4 class="email-subject" th:text="${tab.subject}"></h4>
-                <p class="email-desc" th:text="${tab.desc}"></p>
+                <p class="email-desc" th:utext="${tab.desc}"></p>
             </div>
         </div>
     </div>
 
     <div id="main" class="pure-u-1">
-        <div class="email-content">
+        <div class="pure-menu pure-menu-horizontal" style="background: #283887">
+            <a href="#" class="pure-menu-link pure-menu-heading">HoroAppoint</a>
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item">
+                    <a href="https://chat.line.biz/" target="_blank" class="pure-menu-link">เปิด LINE</a>
+                </li>
+                <li class="pure-menu-item">
+                    <a th:href="@{/logout}" class="pure-menu-link">ออกจากระบบ</a>
+                </li>
+            </ul>
+        </div>
+        <div class="email-content" th:if="${card}">
             <div class="email-content-header pure-g">
-                <div class="pure-u-1-2">
-                    <h2 class="email-content-title">คำขอดูดวง</h2>
-                    <h1 class="email-content-title">สวัสดีจาก Toronto</h1>
+                <div class="pure-u-3-4 pure-u-sm-2-3">
+                    <h1 class="email-content-title" th:text="${card.service}"></h1>
                     <p class="email-content-subtitle">
-                        ผู้ดูดวง <a th:text="${card.name}"></a> อัปเดตล่าสุด <span th:text="${card.datetime}"></span>
+                        ตัวเลือก <a th:text="${card.choice}"></a>
+                    </p>
+                    <p class="email-content-subtitle">
+                        สถานที่ <span th:text="${card.location}"></span>
+                    </p>
+                    <p class="email-content-subtitle">
+                        จองโดย <a th:text="${card.name}"></a> จองเมื่อ <span th:text="${card.date}"></span> เวลา <span
+                            th:text="${card.time}"></span>
                     </p>
                 </div>
 
-                <div class="email-content-controls pure-u-1-2">
-                    <button class="secondary-button pure-button">ยืนยัน</button>
-                    <button class="secondary-button pure-button">ยกเลิก</button>
-                    <button class="secondary-button pure-button">เปิด Line</button>
+                <div class="email-content-controls pure-u-1-4 pure-u-sm-1-3">
+                    <button class="primary-button pure-button" type="submit"
+                            form="fMain" name="action" value="confirm">ยืนยันการจอง
+                    </button>
+                    <br>
+                    <button class="secondary-button pure-button">ยกเลิกการจอง</button>
+                </div>
+            </div>
+            <div class="email-content-body pure-g">
+                <div class="pure-u-1-5" style="background: #dddddd">
+                    <div class="pure-g email-content-sidebar">
+                        <p class="pure-u-1-3">ชื่อผู้ใช้</p>
+                        <p class="pure-u-2-3"><a th:text="${card.service}"></a></p>
+                        <p class="pure-u-1-3">ชื่อ-สกุล</p>
+                        <p class="pure-u-2-3"><a th:text="${card.fullName}"></a></p>
+                        <p class="pure-u-1-3">บริการ</p>
+                        <p class="pure-u-2-3"><a th:text="${card.service}"></a></p>
+                        <p class="pure-u-1-3">ตัวเลือก</p>
+                        <p class="pure-u-2-3"><a th:text="${card.choice}"></a></p>
+                        <p class="pure-u-1-3">รับบริการที่</p>
+                        <p class="pure-u-2-3"><a th:text="${card.location}"></a></p>
+                        <p class="pure-u-1-3">วันที่</p>
+                        <p class="pure-u-2-3"><a th:text="${card.date}"></a></p>
+                        <p class="pure-u-1-3">เวลา</p>
+                        <p class="pure-u-2-3"><a th:text="${card.time}"></a></p>
+                    </div>
+                    </p>
+                </div>
+                <div style="padding: 4em 4em">
+                    <form class="pure-form pure-form-stacked" style="width: max-content">
+                        <label for="note">โน้ต</label>
+                        <textarea class="pure-input-1" id="note" placeholder="ใส่โน้ต"></textarea>
+                        <p>อัปเดตล่าสุด: <span th:text="${card.slipFinal}"></span></p>
+                    </form>
+                </div>
+                <div class="pure-u-1-5 email-content-sidebar" style="background: #dddddd">
+                    <div style="text-align: center">
+                        <h3>รูปสลิปการเงิน</h3>
+                        <img class="" alt="slip" th:if="${card.slip}" th:src="${card.slip}"
+                             style="height: 20em"/>
+                    </div>
                 </div>
             </div>
 
-            <div class="email-content-body">
-                    <table class="pure-table">
-                        <tr class="pure-u-1-2 pure-u-sm-1" th:each="row: ${card.rows}">
-                            <th th:text="${row.first}"></th>
-                            <td th:text="${row.second}"></td>
-                        </tr>
-                    </table>
-                </div>
-                <!--{{> contentBody}} todo-->
-            </div>
+            <!--{{> contentBody}} todo-->
+        </div>
+        <div class="email-content" th:unless="${card}">
+            <p>Appointment Not Found</p>
         </div>
     </div>
 </div>
-<!-- Script to make the Menu link work -->
-<!-- Just stripped down version of the js/ui.js script for the side-menu layout -->
-<!-- todo Check Script -->
+<!--
+</div>
+<-- Script to make the Menu link work --.>
+<-- Just stripped down version of the js/ui.js script for the side-menu layout --.>
+<-- todo Check Script -.->
 <script>
     function getElements() {
         return {
@@ -103,5 +177,6 @@
         document.addEventListener('click', handleEvent);
     });
 </script>
+-->
 </body>
 </html>

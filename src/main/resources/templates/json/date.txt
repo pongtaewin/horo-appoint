@@ -72,7 +72,8 @@
             "contents": [
               {
                 "type": "text",
-                "text": "ระยะเวลา",
+                "text": "ระยะเวลา\nให้บริการ",
+                "wrap": "true",
                 "color": "#aaaaaa",
                 "size": "sm",
                 "flex": 1

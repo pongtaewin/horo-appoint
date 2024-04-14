@@ -62,11 +62,11 @@ class PaymentService(
                         set("details", serviceChoice!!.getFullDescription())
                         set("subtotal", serviceChoice!!.getPriceRounded())
                         set("due_date", ThaiFormatter.format(due, "d MMM"))
-                        set("due_time", ThaiFormatter.format(due, "H:mm"))
+                        set("due_time", ThaiFormatter.format(due, "H:mm") + " น.")
                     }, "กรุณาชำระเงิน",
                     QuickReplyItem(
                         URI("https://storage.googleapis.com/horo-appoint.appspot.com/bank.png"),
-                        PostbackAction("ขอเลขที่บัญชี", "paymentID", "ขอเลขที่บัญชี", null, null, null)
+                        PostbackAction("แสดงเลขที่บัญชี", "paymentID", "แสดงเลขที่บัญชี", null, null, null)
                     )
                 )
             )
@@ -81,7 +81,7 @@ class PaymentService(
             event,
             messageService.processTemplateAndMakeMessage("json/payment_id.txt", ModelMap().apply {
                 set("due_date", ThaiFormatter.format(due, "d MMM"))
-                set("due_time", ThaiFormatter.format(due, "H:mm"))
+                set("due_time", ThaiFormatter.format(due, "H:mm") + " น.")
             }, "กรุณาชำระเงิน")
         )
 

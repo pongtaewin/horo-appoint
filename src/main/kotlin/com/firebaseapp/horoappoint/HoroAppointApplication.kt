@@ -69,9 +69,14 @@ class HoroAppointApplication {
                 .authorizeHttpRequests {
                     it
                         .requestMatchers("/callback").permitAll()
-                        .requestMatchers("/staff/login").permitAll()
+                        .requestMatchers("/login").permitAll()
                         .anyRequest().authenticated()
-                }.httpBasic { }.formLogin { it.loginPage("/staff/login").permitAll() }
+                }.httpBasic { }
+                .formLogin {
+                    it.loginPage("/login")
+                        //.failureForwardUrl("/staff/login")
+                        .permitAll()
+                }
 
             return http.build()
         }

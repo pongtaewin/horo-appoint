@@ -1,9 +1,104 @@
 {
   "type": "carousel",
   "contents": [
-    [# th:each="category,i : ${categories}"]
-    [# th:unless="${i.first}"],[/]
     {
+      "type": "bubble",
+      "size": "hecto",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "วิธีการใช้งานระบบจอง",
+            "size": "lg",
+            "weight": "bold",
+            "wrap": true
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "1.",
+                "size": "lg",
+                "wrap": true,
+                "flex": 1,
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "คุณสามารถเลื่อนแผ่นการ์ดไปมาได้ในระบบจอง และสามารถแตะหรือคลิกปุ่มต่างๆ บนแผ่นการ์ดได้เพื่อทำการจองในระบบ",
+                "size": "sm",
+                "wrap": true,
+                "flex": 8
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "2.",
+                "size": "lg",
+                "wrap": true,
+                "flex": 1,
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "หากคุณต้องการแก้ไขตัวเลือกในขั้นตอนก่อนหน้า สามารถกด\nปุ่มเล็ก ๆ ในแถบด้านล่างการ์ดได้เมื่อมีตัวเลือกปรากฎขึ้น",
+                "size": "sm",
+                "wrap": true,
+                "flex": 8
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "3.",
+                "size": "lg",
+                "wrap": true,
+                "flex": 1,
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "ถ้าหากเกิดปัญหาในการจอง คุณสามารถพิมพ์ข้อความสอบถามในระบบได้เช่นเดียวกับการแชทปกติ\nอาจารย์จะเข้ามาตอบกลับผ่านห้องแชทนี้โดยตรง",
+                "size": "sm",
+                "wrap": true,
+                "flex": 8
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "text",
+            "text": "⟶ ⟶ ⟶ ⟶ ⟶ ⟶ ⟶ ⟶ ⟶\nเลือกดูบริการที่สนใจได้ทางด้านขวา",
+            "size": "sm",
+            "wrap": true,
+            "flex": 1,
+            "gravity": "bottom",
+            "color": "#AAAAAA",
+            "align": "center"
+          }
+        ],
+        "spacing": "sm",
+        "paddingAll": "13px",
+        "justifyContent": "flex-start"
+      }
+    }
+    [# th:each="category,i : ${categories}"]
+    ,{
       "type": "bubble",
       "size": "hecto",
       "hero": {

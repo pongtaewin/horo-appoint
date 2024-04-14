@@ -3,7 +3,7 @@
   "contents": [
     {
       "type": "bubble",
-      "size": "giga",
+      "size": "kilo",
       "body": {
         "type": "box",
         "layout": "vertical",
@@ -71,7 +71,7 @@
               },
               {
                 "type": "box",
-                "layout": "horizontal",
+                "layout": "vertical",
                 "contents": [
                   {
                     "type": "text",
@@ -79,10 +79,6 @@
                     "size": "xs",
                     "wrap": true,
                     "flex": 3
-                  },
-                  {
-                    "type": "separator",
-                    "margin": "sm"
                   },
                   {
                     "type": "text",
@@ -123,7 +119,8 @@
                 "contents": [
                   {
                     "type": "text",
-                    "text": "ระยะเวลา",
+                    "text": "ระยะเวลา\nให้บริการ",
+                    "wrap": "true",
                     "color": "#aaaaaa",
                     "size": "sm",
                     "flex": 1
@@ -199,102 +196,12 @@
            }
         ]
       }
-    },
-    {
-      "type": "bubble",
-      "size": "giga",
-      "body": {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
-            "type": "text",
-            "size": "lg",
-            "text": "แผนผังเวลาว่าง",
-            "weight": "bold",
-            "gravity": "center"
-          },
-          {
-            "type": "text",
-            "text": "เลือกเวลาที่ต้องการได้ทางด้านขวา",
-            "color": "#A0A0A0",
-            "size": "sm"
-          },
-          {
-            "type": "text",
-            "size": "md",
-            "text": "[(${date.full_day})]",
-            "weight": "bold",
-            "gravity": "center",
-            "margin": "lg"
-          },
-          [# th:each="row : ${rows}"]
-          {
-            "type": "text",
-            "text": "[(${row.label})]",
-            "size": "md",
-            "margin": "lg",
-            "weight": "bold"
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-            [# th:each="t,i : ${row.times}"]
-              [# th:unless="${i.first}"],[/]
-              {
-                "type": "text",
-                "text": "[(${t})]",
-                "size": "sm"
-              }
-            [/]
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-            [# th:each="x,i : ${row.bar}"]
-              [# th:unless="${i.first}"],[/]
-              {
-                "type": "box",
-                "layout": "horizontal",
-                "contents": [
-                [# th:each="y,i : ${x}"]
-                  [# th:unless="${i.first}"],[/]
-                  {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [],
-                    "margin": "none",
-                     [# th:if="${y}"] "backgroundColor": "#60FF60" [/]
-                     [# th:unless="${y}"] "backgroundColor": "#A0A0A0"[/]
-                  }
-                [/]
-                ],
-                "flex": 1,
-                "borderWidth": "normal",
-                "borderColor": "#000000"
-              }
-            [/]
-            ],
-            "height": "25px"
-          },
-          [/]
-          {
-            "type": "text",
-            "text": "อัปเดตล่าสุด: [(${updated})]",
-            "color": "#A0A0A0",
-            "size": "xs",
-            "margin": "lg"
-          }
-        ]
-      }
     }
+
     [# th:each="block : ${blocks}"]
       ,{
         "type": "bubble",
-        "size": "giga",
+        "size": "kilo",
         "body": {
           "type": "box",
           "layout": "vertical",
@@ -326,28 +233,36 @@
                       "type": "button",
                       "action": {
                         "type": "postback",
-                        "label": "[(${row.time[0]})]",
-                        "data": "schedule?frame=[(${row.frame[0]})]",
-                        "displayText": "[(${row.time[0]})]"
+                        "label": "[(${row.stime[0]})]",
+                        [# th:switch="${row.free[0]}"]
+                          [# th:case="true"]"data": "schedule?frame=[(${row.frame[0]})]",[/]
+                          [# th:case="*"]"data": " ",[/]
+                        [/]
+                        "displayText": "[(${date.full_day})] [(${row.time[0]})]"
                       },
-                      "style": "secondary",
                       "height": "sm",
-                      [# th:if="${row.free[0]}"]"color": "#60FF60"[/]
-                      [# th:unless="${row.free[0]}"]"color": "#A0A0A0"[/]
+                      [# th:switch="${row.free[0]}"]
+                        [# th:case="true"]"style": "secondary","color": "#17C950"[/]
+                        [# th:case="*"]"style": "secondary","color": "#A0A0A0"[/]
+                      [/]
                     },
                     {
                       "type": "button",
                       "action": {
                         "type": "postback",
-                        "label": "[(${row.time[1]})]",
-                        "data": "schedule?frame=[(${row.frame[1]})]",
-                        "displayText": "[(${row.time[1]})]"
+                        "label": "[(${row.stime[1]})]",
+                        [# th:switch="${row.free[1]}"]
+                          [# th:case="true"]"data": "schedule?frame=[(${row.frame[1]})]",[/]
+                          [# th:case="*"]"data": " ",[/]
+                        [/]
+                        "displayText": "[(${date.full_day})] [(${row.time[1]})]"
                       },
-                      "style": "secondary",
                       "height": "sm",
                       "margin": "sm",
-                      [# th:if="${row.free[1]}"]"color": "#60FF60"[/]
-                      [# th:unless="${row.free[1]}"]"color": "#A0A0A0"[/]
+                      [# th:switch="${row.free[1]}"]
+                        [# th:case="true"]"style": "secondary","color": "#17C950"[/]
+                        [# th:case="*"]"style": "secondary","color": "#A0A0A0"[/]
+                      [/]
                     }
                   ]
                 },
@@ -359,28 +274,37 @@
                       "type": "button",
                       "action": {
                         "type": "postback",
-                        "label": "[(${row.time[2]})]",
+                        "label": "[(${row.stime[2]})]",
+                        [# th:switch="${row.free[2]}"]
+                          [# th:case="true"]"data": "schedule?frame=[(${row.frame[2]})]",[/]
+                          [# th:case="*"]"data": " ",[/]
+                        [/]
                         "data": "schedule?frame=[(${row.frame[2]})]",
-                        "displayText": "[(${row.time[2]})]"
+                        "displayText": "[(${date.full_day})] [(${row.time[2]})]"
                       },
-                      "style": "secondary",
                       "height": "sm",
-                      [# th:if="${row.free[2]}"]"color": "#60FF60"[/]
-                      [# th:unless="${row.free[2]}"]"color": "#A0A0A0"[/]
+                      [# th:switch="${row.free[2]}"]
+                        [# th:case="true"]"style": "secondary","color": "#17C950"[/]
+                        [# th:case="*"]"style": "secondary","color": "#A0A0A0"[/]
+                      [/]
                     },
                     {
                       "type": "button",
                       "action": {
                         "type": "postback",
-                        "label": "[(${row.time[3]})]",
-                        "data": "schedule?frame=[(${row.frame[3]})]",
-                        "displayText": "[(${row.time[3]})]"
+                        "label": "[(${row.stime[3]})]",
+                        [# th:switch="${row.free[3]}"]
+                          [# th:case="true"]"data": "schedule?frame=[(${row.frame[3]})]",[/]
+                          [# th:case="*"]"data": " ",[/]
+                        [/]
+                        "displayText": "[(${date.full_day})] [(${row.time[3]})]"
                       },
-                      "style": "secondary",
                       "height": "sm",
                       "margin": "sm",
-                      [# th:if="${row.free[3]}"]"color": "#60FF60"[/]
-                      [# th:unless="${row.free[3]}"]"color": "#A0A0A0"[/]
+                      [# th:switch="${row.free[3]}"]
+                        [# th:case="true"]"style": "secondary","color": "#17C950"[/]
+                        [# th:case="*"]"style": "secondary","color": "#A0A0A0"[/]
+                      [/]
                     }
 
                   ],

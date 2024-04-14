@@ -53,6 +53,7 @@ class Appointment {
     var selectionAdded: Instant? = null
 
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
+
     @Column(name = "selection_final")
     var selectionFinal: Instant? = null
 

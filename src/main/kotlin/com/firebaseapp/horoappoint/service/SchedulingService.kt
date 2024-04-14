@@ -226,7 +226,7 @@ class SchedulingService(
                     put(
                         "choice", mapOf(
                             "name" to choice.name!!,
-                            "desc" to choice.description!!,
+                            "desc" to choice.description!!.replace("\n"," "),
                             "price" to ThaiFormatter.currency(choice.price!!),
                             "location" to appointment.getLocationDescriptor(),
                             "duration" to choice.getDurationText()
@@ -235,7 +235,7 @@ class SchedulingService(
                     put(
                         "service", mapOf(
                             "name" to choice.service!!.name!!,
-                            "desc" to choice.service!!.description!!
+                            "desc" to choice.service!!.description!!.replace("\n"," ")
                         )
                     )
 
@@ -253,6 +253,7 @@ class SchedulingService(
                             "label" to label,
                             "rows" to range.chunked(4).map { r ->
                                 mapOf<String, List<Any>>(
+                                    "stime" to r.map { f -> if (f + frameLength <= 96) frameToText(f) + " น." else "---" },
                                     "time" to r.map { f -> frameRangeToText(f..(f + frameLength)) ?: "---" },
                                     "frame" to r.map { f -> frameToEpoch(date, f) },
                                     "free" to r.map { f -> frameSlot.getOrNull(f) ?: false }
@@ -475,6 +476,7 @@ class SchedulingService(
             }
 
         //todo handle case where location can't be found
+
         private fun mapCustomerLocation(lat: Double, lon: Double, context: GeoApiContext): Location =
             GeocodingApi.reverseGeocode(context, LatLng(lat, lon)).language("th")
                 .await().map { it.addressComponents.toList() }

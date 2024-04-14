@@ -2,15 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="header">
     <meta charset="UTF-8" />
-    <title>${page.title}</title>
+    <title th:text="${page.title}"></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
           integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<head th:fragment="header-no-stylesheet">
+<head th:fragment="header-login">
     <meta charset="UTF-8" />
-    <title>${page.title}</title>
+    <title>เข้าสู่ระบบ</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css"
           integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">

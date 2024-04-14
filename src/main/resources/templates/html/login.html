@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="th">
-<head th:insert="~{html/fragments/general.html :: header-no-stylesheet}"></head>
+<head th:insert="~{html/fragments/general.html :: header-login}"></head>
 <body>
 <div id="layout" class="content pure-g" style="align-content: center;height: 100vh">
     <div class="pure-u-1-5"></div>
     <div class="pure-u-3-5">
-        <form class="pure-form pure-form-aligned" th:action="@{/staff/login}" method="post">
+        <form class="pure-form pure-form-aligned" th:action="@{/login}" method="post">
             <fieldset>
                 <legend>เข้าสู่ระบบ</legend>
                 <br>
