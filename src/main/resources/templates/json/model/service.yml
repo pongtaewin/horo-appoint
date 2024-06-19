@@ -1,8 +1,0 @@
-services:
-  - service:
-      image: #
-      name: #
-      choices: #
-      price: #
-      desc: #
-      id: #

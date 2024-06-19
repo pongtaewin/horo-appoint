@@ -1,6 +1,14 @@
 package com.firebaseapp.horoappoint.entity
 
-import jakarta.persistence.*
+import com.firebaseapp.horoappoint.HoroAppointApplication.Companion.getImg
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.net.URL
@@ -43,16 +51,18 @@ class Service {
     @Column(name = "choices_count", nullable = false)
     var choicesCount: Int? = null
 
+    @Suppress("Unused")
     @JdbcTypeCode(SqlTypes.BOOLEAN)
     @Column(name = "visible", nullable = false)
     var visible: Boolean? = null
 
     fun getDisplayImageOrDefault() =
-        displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default-small.jpg")
+        displayImage ?: getImg("banner-default-small.jpg")
 
     fun getMinPriceRounded(): String =
         DecimalFormat(if (minPrice!! == minPrice!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(minPrice!!)
 
+    @Suppress("Unused")
     fun getMaxPriceRounded(): String =
         DecimalFormat(if (maxPrice!! == maxPrice!!.roundToLong().toDouble()) "#,##0" else "#,##0.00").format(maxPrice!!)
 }

@@ -95,6 +95,11 @@
         "spacing": "sm",
         "paddingAll": "13px",
         "justifyContent": "flex-start"
+      },
+      "styles": {
+        "body": {
+          "backgroundColor": "#d1fade"
+        }
       }
     }
     [# th:each="category,i : ${categories}"]

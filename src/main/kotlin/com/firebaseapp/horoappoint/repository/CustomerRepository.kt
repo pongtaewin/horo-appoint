@@ -7,9 +7,7 @@ import java.util.*
 
 interface CustomerRepository : CrudRepository<Customer, String> {
 
-
     fun findByLineUID(lineUID: String): Optional<Customer>
-
 
     fun findByEvent(event: Event): Optional<Customer> = findByLineUID(event.source().userId())
 }

@@ -1,0 +1,250 @@
+{
+  "type": "bubble",
+  "size": "mega",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "รายละเอียดการนัดหมาย",
+        "weight": "bold",
+        "size": "xl"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "margin": "lg",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "บริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${service})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ตัวเลือก",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${choice})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "สถานที่",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${location})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "วันที่",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${date})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "เวลา",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${time})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ชื่อผู้จอง",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${customer})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ค่าบริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "[(${price})] บาท",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 3
+              }
+            ]
+          }
+        ]
+      },
+      [# th:if="${on_premise}"]
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "สถานที่รับบริการ\nสำนักสักลายมือเศรษฐี จอมพล 789\n39/6 หมู่ 1 ต.ท้ายหาด อ.เมืองฯ\nจ.สมุทรสงคราม 75000",
+                "size": "sm",
+                "align": "start",
+                "wrap": true,
+                "flex": 4,
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "สถานที่รับบริการ\n",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": "สำนักสักลายมือเศรษฐี จอมพล 789\n39/6 หมู่ 1 ต.ท้ายหาด อ.เมืองฯ\nจ.สมุทรสงคราม 75000"
+                  }
+                ],
+                "gravity": "center"
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "ดู",
+                  "uri": "https://www.google.com/maps/dir/?api=1&destination=%E0%B8%AA%E0%B8%B3%E0%B8%99%E0%B8%B1%E0%B8%81%E0%B8%AA%E0%B8%B1%E0%B8%81%E0%B8%AF%20%E0%B8%88%E0%B8%AD%E0%B8%A1%E0%B8%9E%E0%B8%A5%20789&dir_action=navigate&destination_place_id=ChIJmRFdM3GV4jARgd_wavTST0k"
+                },
+                "flex": 1,
+                "style": "secondary",
+                "gravity": "center"
+              }
+            ],
+            "flex": 0,
+            "margin": "lg"
+          },
+          {
+            "type": "text",
+            "text": "ในการเดินทาง แนะนำให้มาถึงสำนักฯ\nก่อนเวลาประมาณ 15 นาที เพื่อนั่งพักผ่อน\nและเผื่อเวลาก่อนเข้ารับบริการครับ",
+            "color": "#aaaaaa",
+            "size": "sm",
+            "flex": 1,
+            "margin": "md",
+            "wrap": true,
+            "align": "center"
+          }
+        ]
+      },
+      [/]
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "อาจารย์ฯ จะติดต่อท่านโดยเร็วที่สุด\nผ่านทางห้องแชทนี้ เพื่อสอบถามข้อมูล\nและอธิบายขั้นตอนการให้บริการต่อไปครับ",
+        "color": "#aaaaaa",
+        "size": "sm",
+        "flex": 1,
+        "margin": "md",
+        "wrap": true,
+        "align": "center"
+      }
+    ]
+  }
+}

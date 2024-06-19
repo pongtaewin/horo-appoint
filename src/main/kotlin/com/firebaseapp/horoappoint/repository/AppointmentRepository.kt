@@ -8,14 +8,12 @@ import java.util.*
 
 interface AppointmentRepository : CrudRepository<Appointment, Long> {
 
-
     override fun findById(id: Long): Optional<Appointment>
 
+    @Query("select a from Appointment a where a.customer.lineUID = ?1")
+    fun findByCustomerLineUID(lineUID: String): Optional<Appointment>
 
-    fun findByCustomer_LineUID(lineUID: String): Optional<Appointment>
-
-    fun findByEvent(event: Event) = findByCustomer_LineUID(event.source().userId())
-
+    fun findByEvent(event: Event) = findByCustomerLineUID(event.source().userId())
 
     @Query(
         """select a from Appointment a
@@ -25,6 +23,4 @@ or a.serviceChoice.service.name like concat('%', ?1, '%')
 or a.serviceChoice.name like concat('%', ?1, '%')"""
     )
     fun findByMatchingQueryOnCustomerOrService(query: String): List<Appointment>
-
-
 }

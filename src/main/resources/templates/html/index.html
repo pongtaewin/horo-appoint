@@ -1,182 +1,278 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="th">
-<head th:insert="~{html/fragments/general.html :: header}"></head>
-<body>
-<div id="layout" class="content pure-g">
+<head th:fragment="header">
+    <meta charset="UTF-8"/>
+    <title>แอปพลิเคชัน HoroAppoint</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/896118f067.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body, .new-font {
+            font-family: "Sarabun", sans-serif;
+        }
 
-    <!--<div id="nav" class="pure-u" th:replace="~{html/fragments/side_menu.html :: side_menu}"></div>-->
+        .full-height {
+            min-height: calc(100vh - 12.5rem);
+            margin-bottom: 0;
+        }
+    </style>
+</head>
 
-    <div id="list" class="pure-u-1">
-        <form id="fMain" class="email-item pure-form pure-form-aligned" style="background: #dddddd" th:action="@{/}"
-              method="get">
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="search" style="width:4em">ค้นหา</label>
-                    <input type="text" id="search" name="search" placeholder="ใส่คำค้นหา"
-                           th:value="${search != null} ? ${search} : ''"/>
+
+<body style="overflow: hidden">
+
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand has-background-info">
+        <a class="navbar-item has-text-black" href="https://bulma.io"><b>HoroAppoint</b></a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" th:href="@{/}">รายการนัดหมาย</a>
+            <a class="navbar-item" th:href="@{/schedule}">ปฏิทิน</a>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href="https://chat.line.biz" target="_blank">
+                        <strong class="is-light">เปิด Line</strong>
+                    </a>
+                    <a class="button is-light">
+                        ออกจากระบบ
+                    </a>
                 </div>
-                <div class="pure-control-group">
-                    <label for="filter" style="width:4em">ตัวกรอง</label>
-                    <select id="filter" name="filter">
-                        <option value="all" th:selected="${filter == 'all'}">ทั้งหมด</option>
-                        <optgroup label="สถานะ"></optgroup>
-                        <option value="payment" th:selected="${filter == 'payment'}">รอชำระเงิน</option>
-                        <option value="confirmation" th:selected="${filter == 'confirmation'}">รอตรวจสอบ</option>
-                        <option value="ready" th:selected="${filter == 'ready'}">พร้อมให้บริการ</option>
-                        <option value="finished" th:selected="${filter == 'finished'}">เสร็จสิ้น</option>
-                    </select>
-                    <input type="hidden" id="selected" name="selected" th:value="${selected}"/>
-                    <button type="submit" class="pure-button pure-button-primary">ค้นหา</button>
-                </div>
-            </fieldset>
-        </form>
-        <div class="email-item email-item-unread pure-g" th:each="tab: ${tabs}"
-             th:style="'border-left-color:'+${tab.color}"
-             th:classappend="${tab.picked == 'true'} ? 'email-item-selcted' : ''">
-            <div class="pure-u">
-                <img width="64" height="64" th:alt="'Avatar of '+${tab.name}" class="email-avatar" th:src="${tab.src}">
-            </div>
-
-            <div class="pure-u-3-4">
-                <h5 class="email-name" th:text="${tab.name}"></h5>
-                <h4 class="email-subject" th:text="${tab.subject}"></h4>
-                <p class="email-desc" th:utext="${tab.desc}"></p>
             </div>
         </div>
     </div>
-
-    <div id="main" class="pure-u-1">
-        <div class="pure-menu pure-menu-horizontal" style="background: #283887">
-            <a href="#" class="pure-menu-link pure-menu-heading">HoroAppoint</a>
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item">
-                    <a href="https://chat.line.biz/" target="_blank" class="pure-menu-link">เปิด LINE</a>
-                </li>
-                <li class="pure-menu-item">
-                    <a th:href="@{/logout}" class="pure-menu-link">ออกจากระบบ</a>
-                </li>
-            </ul>
-        </div>
-        <div class="email-content" th:if="${card}">
-            <div class="email-content-header pure-g">
-                <div class="pure-u-3-4 pure-u-sm-2-3">
-                    <h1 class="email-content-title" th:text="${card.service}"></h1>
-                    <p class="email-content-subtitle">
-                        ตัวเลือก <a th:text="${card.choice}"></a>
-                    </p>
-                    <p class="email-content-subtitle">
-                        สถานที่ <span th:text="${card.location}"></span>
-                    </p>
-                    <p class="email-content-subtitle">
-                        จองโดย <a th:text="${card.name}"></a> จองเมื่อ <span th:text="${card.date}"></span> เวลา <span
-                            th:text="${card.time}"></span>
-                    </p>
-                </div>
-
-                <div class="email-content-controls pure-u-1-4 pure-u-sm-1-3">
-                    <button class="primary-button pure-button" type="submit"
-                            form="fMain" name="action" value="confirm">ยืนยันการจอง
+</nav>
+<div class="columns is-gapless mb-0">
+    <div id="list" class="column is-narrow" style="width:450px; height: calc(100vh - 3.5rem); overflow:auto;scrollbar-width: thin">
+        <form id="fMain" class="p-2 has-background-info-light" action="/" method="get">
+            <div class="field has-addons">
+                <p class="control has-icons-left">
+                    <span class="select new-font">
+                      <select class="new-font" id="filter" name="filter">
+                        <option th:selected="${filter == 'all'}" value="all" selected>ทั้งหมด</option>
+                        <optgroup class="new-font" label="สถานะ"></optgroup>
+                        <option th:selected="${filter == 'payment'}" value="payment">รอชำระเงิน</option>
+                        <option th:selected="${filter == 'confirmation'}" value="confirmation">รอตรวจสอบ</option>
+                        <option th:selected="${filter == 'ready'}" value="ready">พร้อมให้บริการ</option>
+                        <option th:selected="${filter == 'finished'}" value="finished">เสร็จสิ้น</option>
+                      </select>
+                    </span>
+                    <input type="hidden" id="selected" name="selected" th:value="${selected}">
+                    <span class="icon is-left">
+                      <i class="fas fa-filter"></i>
+                    </span>
+                </p>
+                <p class="control is-expanded has-icons-left">
+                    <input class="input is-fullwidth new-font" type="text" id="search" name="search"
+                           placeholder="คำค้นหา" th:value="${search != null ? search : ''}">
+                    <span class="icon is-left">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </p>
+                <div class="control">
+                    <button type="submit" class="button is-info">
+                        ค้นหา
                     </button>
-                    <br>
-                    <button class="secondary-button pure-button">ยกเลิกการจอง</button>
-                </div>
-            </div>
-            <div class="email-content-body pure-g">
-                <div class="pure-u-1-5" style="background: #dddddd">
-                    <div class="pure-g email-content-sidebar">
-                        <p class="pure-u-1-3">ชื่อผู้ใช้</p>
-                        <p class="pure-u-2-3"><a th:text="${card.service}"></a></p>
-                        <p class="pure-u-1-3">ชื่อ-สกุล</p>
-                        <p class="pure-u-2-3"><a th:text="${card.fullName}"></a></p>
-                        <p class="pure-u-1-3">บริการ</p>
-                        <p class="pure-u-2-3"><a th:text="${card.service}"></a></p>
-                        <p class="pure-u-1-3">ตัวเลือก</p>
-                        <p class="pure-u-2-3"><a th:text="${card.choice}"></a></p>
-                        <p class="pure-u-1-3">รับบริการที่</p>
-                        <p class="pure-u-2-3"><a th:text="${card.location}"></a></p>
-                        <p class="pure-u-1-3">วันที่</p>
-                        <p class="pure-u-2-3"><a th:text="${card.date}"></a></p>
-                        <p class="pure-u-1-3">เวลา</p>
-                        <p class="pure-u-2-3"><a th:text="${card.time}"></a></p>
-                    </div>
-                    </p>
-                </div>
-                <div style="padding: 4em 4em">
-                    <form class="pure-form pure-form-stacked" style="width: max-content">
-                        <label for="note">โน้ต</label>
-                        <textarea class="pure-input-1" id="note" placeholder="ใส่โน้ต"></textarea>
-                        <p>อัปเดตล่าสุด: <span th:text="${card.slipFinal}"></span></p>
-                    </form>
-                </div>
-                <div class="pure-u-1-5 email-content-sidebar" style="background: #dddddd">
-                    <div style="text-align: center">
-                        <h3>รูปสลิปการเงิน</h3>
-                        <img class="" alt="slip" th:if="${card.slip}" th:src="${card.slip}"
-                             style="height: 20em"/>
-                    </div>
                 </div>
             </div>
 
-            <!--{{> contentBody}} todo-->
+        </form>
+        <div th:each="tab: ${tabs}">
+            <article class="media p-2 my-0" th:classappend="${tab.picked} ? 'has-background-grey-lighter' : 'has-background-white-ter'">
+                <figure class="media-left">
+                    <p class="image is-64x64"><img alt="Customer Image" class="is-rounded" th:src="${tab.src}"/></p>
+                    <p class="has-text-centered mt-4">
+                        <span th:if="${tab.appType == 'booking'}" class="tag is-danger">ใช้งานอยู่</span>
+                        <span th:if="${tab.appType == 'payment'}" class="tag is-warning">รอชำระ</span>
+                        <span th:if="${tab.appType == 'confirmation'}" class="tag is-info">ตรวจสอบ</span>
+                        <span th:if="${tab.appType == 'ready'}" class="tag is-success">พร้อม</span>
+                        <span th:if="${tab.appType == 'finished'}" class="tag is-light">เสร็จสิ้น</span>
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <div class="m-0">
+                            <div class="pb-2" th:text="${tab.name}"></div>
+                            <span class="tags has-addons mb-1">
+                                <span class="tag is-primary"><b th:text="${tab.time.date}"></b></span>
+                                <span class="tag is-warning" th:text="${tab.time.timeStart}"></span>
+                                <span class="tag is-info" th:text="${tab.time.timeEnd}"></span>
+                            </span>
+                            <span class="icon is-small mr-2"><i class="fas fa-folder-closed"></i></span>
+                            <span th:text="${tab.subject}"></span><br/>
+                            <span class="icon is-small mr-2"><i class="fas fa-folder-tree"></i></span>
+                            <span th:text="${tab.choice}"></span><br/>
+                        </div>
+                        <nav class="level">
+                            <div class="level-left">
+                                <span th:if="${tab.serviceType == 'ONLINE_CHAT'}" class="level-item icon is-small"><i class="fas fa-comments"></i></span>
+                                <span th:if="${tab.serviceType == 'ON_PREMISE'}" class="level-item icon is-small"><i class="fas fa-shop"></i></span>
+                                <span th:if="${tab.serviceType == 'GUIDE'}" class="level-item icon is-small"><i class="fas fa-vihara"></i></span>
+                                <span th:if="${tab.serviceType != 'MEETUP'}" th:text="${tab.typeText}"></span>
+                                <span th:if="${tab.serviceType == 'MEETUP'}" class="level-item icon is-small">
+                                    <i th:if="${tab.loc.zone == '1'}" class="fas fa-car-side"></i>
+                                    <i th:if="${tab.loc.zone == '2'}" class="fas fa-van-shuttle"></i>
+                                    <i th:if="${tab.loc.zone == '3'}" class="fas fa-plane-arrival"></i>
+                                </span>
+                                <span class="level-item tags has-addons" th:if="${tab.serviceType == 'MEETUP'}">
+                                    <span class="tag is-danger is-light"><b th:text="${tab.loc.km + 'กม.'}"></b></span>
+                                    <span class="tag has-background-primary-light" th:text="${tab.loc.prov}"></span>
+                                    <span class="tag is-primary is-light" th:text="${tab.loc.dist}">่</span>
+                                </span>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <div class="media-right">
+                    <p class="has-text-centered pb-1">
+                        <small th:text="${tab.updated}"></small> <br/>
+                    </p>
+                    <button class="button" type="submit" name="selectedNew"  th:unless="${tab.picked}"
+                            form="fMain" th:value="${tab.id}">
+                        <span class="icon is-small"><i class="fas fa-right-from-bracket"></i></span>
+                    </button>
+                    <button class="button is-success" th:if="${tab.picked}">
+                        <span class="icon is-small"><i class="fas fa-check"></i></span>
+                    </button>
+                </div>
+            </article>
         </div>
-        <div class="email-content" th:unless="${card}">
-            <p>Appointment Not Found</p>
+    </div>
+    <div id="main" class="column">
+        <section class="hero is-small has-background-grey-lighter" style="height: auto">
+            <div class="hero-body">
+                <div class="columns">
+                    <div class="column is-three-quarters">
+                        <p class="title" th:text="${card.service}"></p>
+                        <p class="subtitle">
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">วันที่</span>
+                                    <span class="tag is-success"><b th:text="${card.dateShort}"></b></span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">เวลา</span>
+                                    <span class="tag is-warning" th:text="${card.timeStart}"></span>
+                                    <span class="tag is-info" th:text="${card.timeEnd}"></span>
+                                </div>
+                            </div>
+                            <div class="control">
+                                <div class="tags has-addons">
+                                    <span class="tag is-dark">ผู้จอง</span>
+                                    <span class="tag is-link is-light" th:text="${card.name}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        </p>
+                    </div>
+                    <div class="column is-one-quarter is-pulled-right">
+                        <button class="button is-medium is-success is-pulled-right" th:disabled="${card.final}"
+                                type="submit" form="fMain" name="action" value="confirm">
+                            <span class="icon"><i class="fas fa-check"></i></span>
+                            <span th:text="${card.final ? 'ยแล้ว' : 'อนุมัติการนัดหมาย'}"></span>
+                        </button>
+                        <p class="is-small is-pulled-right pt-2 pr-2">อัปเดต: <span th:text="${card.lastUpdated}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="columns is-gapless p-0">
+            <div class="column full-height has-background-light">
+                <div class="content m-4">
+                    <p>
+                    <h4>ผู้จอง</h4>
+                    <b>ชื่อผู้ใช้ไลน์</b> <span th:text="${card.name}"></span><br>
+                    <b>ชื่อ-สกุล</b> <span th:text="${card.fullName}"></span>
+                    </p>
+                    <p>
+                    <h4>บริการ</h4>
+                    <b>กลุ่มบริการ</b> <span th:text="${card.group}"></span><br>
+                    <b>บริการ</b> <span th:text="${card.service}"></span><br>
+                    <b>ตัวเลือกบริการ</b> <span th:text="${card.choice}"></span>
+                    </p>
+                    <p>
+                    <h4>การนัดหมาย</h4>
+                    <b>วันที่</b> <span th:text="${card.date}"></span> <b>เวลา</b> <span th:text="${card.time}"></span> <br>
+                    </p>
+                    <p>
+                    <h4>ข้อมูลเวลา</h4>
+                    <table class="table is-narrow is-hoverable">
+                        <tbody>
+                        <tr>
+                            <th>เริ่มต้นการจอง</th>
+                            <td th:text="${card.timestamp.selection_added}"></td>
+                        </tr>
+                        <tr>
+                            <th>ยืนยันการจอง</th>
+                            <td th:text="${card.timestamp.selection_final}"></td>
+                        </tr>
+                        <tr>
+                            <th>ยืนยันการชำระเงิน</th>
+                            <td th:text="${card.timestamp.slip_final}"></td>
+                        </tr>
+                        <tr>
+                            <th>ยืนยันการนัดหมาย</th>
+                            <td th:text="${card.timestamp.approved}"></td>
+                        </tr>
+                        <tr>
+                            <th>ให้บริการเสร็จสิ้น</th>
+                            <td th:text="${card.timestamp.finished}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </p>
+                </div>
+            </div>
+            <div class="column full-height">
+                <div class="content m-4">
+
+                    <h4>สถานที่</h4>
+                    <p th:unless="${card.type == 'MEETUP' && card.loc != null}">
+                        <span>ไม่พบสถานที่</span>
+                    </p>
+                    <p th:if="${card.type == 'MEETUP' && card.loc != null}">
+                        <b>จังหวัด</b> <span th:text="${card.loc.prov}">กรุงเทพมหานคร</span> <b>ระยะทาง</b> <span th:text="${card.loc.km + 'กม.'}">55.2 กม.</span> <br>
+                        <b>อำเภอ/เขต</b> <span th:text="${card.loc.dist}"></span> <b>ตำบล/แขวง</b> <span th:text="${card.loc.subd}"></span><br>
+                        <b>แผนที่</b> <a th:href="${'https://www.google.com/maps/dir/?api=1&origin=T&origin_place_id=ChIJmRFdM3GV4jARgd_wavTST0k&destination=' + card.loc.lat + '%2C%20'+ card.loc.lon}"
+                                         target=”_blank”>เปิดใน Google Maps <i class="fas fa-arrow-up-right-from-square"></i></a>
+                    </p>
+                    <iframe th:if="${card.type == 'MEETUP' && card.loc != null}"
+                            class="image is-1by1 is-fullwidth" style="border:0" loading="lazy" allowfullscreen
+                            th:src="${'https://www.google.com/maps/embed/v1/directions?origin=place_id:ChIJmRFdM3GV4jARgd_wavTST0k&destination=' + card.loc.lat + '%2C%20'+ card.loc.lon + '&key=AIzaSyD2VuAPdNjSCTNn4McvAMw2jUnLJuCTgVM'}"></iframe>
+                </div>
+            </div>
+            <div class="column full-height has-background-light">
+                <div class="content m-4">
+                    <div style="text-align: center">
+                        <h4>สลิปการโอนเงิน</h4>
+                        <img class="" alt="slip"
+                             th:src="${card.slip}"
+                             style="max-width: 100%; max-height: 20em; width: auto; height: auto">
+                    </div>
+                    <label class="pt-4" for="note">โน้ต</label>
+                    <textarea class="textarea new-font is-fullwidth" id="note" placeholder="ใส่โน้ต" rows="8"
+                              style="resize:none;scrollbar-width: thin"></textarea>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<!--
-</div>
-<-- Script to make the Menu link work --.>
-<-- Just stripped down version of the js/ui.js script for the side-menu layout --.>
-<-- todo Check Script -.->
-<script>
-    function getElements() {
-        return {
-            menu: document.getElementById('nav'),
-            menuLink: document.getElementById('menuLink')
-        };
-    }
-
-    function toggleClass(element, className) {
-        let classes = element.className.split(/\s+/);
-        let length = classes.length;
-
-        for (let i = 0; i < length; i++) {
-            if (classes[i] === className) {
-                classes.splice(i, 1);
-                break;
-            }
-        }
-        // The className is not found
-        if (length === classes.length) {
-            classes.push(className);
-        }
-
-        element.className = classes.join(' ');
-    }
-
-    function toggleMenu() {
-        var active = 'active';
-        var elements = getElements();
-
-        toggleClass(elements.menu, active);
-    }
-
-    function handleEvent(e) {
-        var elements = getElements();
-
-        if (e.target.id === elements.menuLink.id) {
-            toggleMenu();
-            e.preventDefault();
-        } else if (elements.menu.className.indexOf('active') !== -1) {
-            toggleMenu();
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('click', handleEvent);
-    });
-</script>
--->
 </body>
-</html>

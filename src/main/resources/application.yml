@@ -1,0 +1,20 @@
+# debug: true
+
+line.bot:
+  channel-token: # line official account channel token
+  channel-secret: # line official account channel secret
+  handler.path: /callback
+
+gcp-maps:
+  api-key: # gcp / google maps API key
+
+spring:
+  cloud.gcp.sql:
+    database-name: # cloud sql database name e.g. 'postgres'
+    instance-connection-name: # cloud sql instance name e.g. 'project-name:gcloud-server:instance-name'
+  datasource:
+    username: # postgres admin username as string e.g. 'admin'
+    password: # postgres admin password as string e.g. '********'
+
+spring.devtools.restart.exclude: logs/** # use to disable restart logs infinite loop
+

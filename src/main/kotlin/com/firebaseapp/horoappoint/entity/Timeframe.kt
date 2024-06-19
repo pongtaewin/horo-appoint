@@ -1,11 +1,18 @@
 package com.firebaseapp.horoappoint.entity
 
-import com.firebaseapp.horoappoint.settings.ThaiFormatter
-import jakarta.persistence.*
+import com.firebaseapp.horoappoint.ThaiFormatter
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToOne
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.*
 
 @Entity
 class Timeframe {
@@ -38,52 +45,60 @@ class Timeframe {
     @JoinColumn(name = "appointment_id")
     var appointment: Appointment? = null
 
-
-
     fun getStart() = ThaiFormatter.asZone(startTime!!)
     fun getEnd() = ThaiFormatter.asZone(endTime!!)
 
-    //todo handle 24:00 case
-    fun getCombinedDate(): String {
+    @Suppress("CyclomaticComplexMethod")
+    fun getCombinedDate(mini: Boolean = false): String {
         val startDay = getStart().truncatedTo(ChronoUnit.DAYS)
         val endDay = getEnd().truncatedTo(ChronoUnit.DAYS)
+        val date = if (mini) "d MMM yy" else "EEEEที่ d MMMM yyyy"
+        fun formatStart(startP: String) = ThaiFormatter.format(startDay, startP)
+        fun formatEnd(endP: String) = (if (mini) " - " else " ถึง ") + ThaiFormatter.format(endDay, endP)
+        fun String.deleteLastToken() = substringBeforeLast(" ", "")
+
         return when {
-            startDay == endDay ||
-                    startDay.plusDays(1) == endDay
-                    && getEnd().run { hour == 0 && minute == 0 && second == 0 } ->
-                ThaiFormatter.format(startDay, "EEEEที่ d MMMM G yyyy")
+            startDay == endDay || startDay.plusDays(1) == endDay &&
+                getEnd().run { hour == 0 && minute == 0 && second == 0 } ->
+                formatStart(date)
 
             startDay.year != endDay.year ->
-                ThaiFormatter.format(startDay, "EE d MMM yyyy") + " ถึง " +
-                        ThaiFormatter.format(endDay, "EE d MMM yyyy")
+                formatStart(date.replace("EEEEที่", "EE")) + formatEnd(date.replace("EEEEที่", "EE"))
 
             startDay.month != endDay.month ->
-                ThaiFormatter.format(startDay, "EEEEที่ d MMMM") + " ถึง" +
-                        ThaiFormatter.format(endDay, "EEEEที่ d MMMM yyyy")
+                formatStart(date.deleteLastToken()) + formatEnd(date)
 
-            else -> ThaiFormatter.format(startDay, "EEEEที่ d") + " ถึง" +
-                    ThaiFormatter.format(endDay, "EEEEที่ d MMMM G yyyy")
+            else -> formatStart(date.deleteLastToken().deleteLastToken()) + formatEnd(date)
         }
     }
 
-    fun getCombinedTime(): String {
+    fun getCombinedTime(mini: Boolean = false): String {
         val startDay = getStart().truncatedTo(ChronoUnit.DAYS)
         val endDay = getEnd().truncatedTo(ChronoUnit.DAYS)
         return when {
             startDay == endDay -> ThaiFormatter.format(getStart(), "H:mm") + " - " +
-                    ThaiFormatter.format(getEnd(), "H:mm") + " น."
+                ThaiFormatter.format(getEnd(), "H:mm") + if (mini) "" else " น."
 
             startDay.plusDays(1) == endDay && getEnd().run { hour == 0 && minute == 0 && second == 0 } ->
-                ThaiFormatter.format(getStart(), "H:mm") + " - 24:00 น."
+                ThaiFormatter.format(getStart(), "H:mm") + " - 24:00" + if (mini) "" else " น."
 
-            else -> String.format(
-                "%s น. (%s) - %s น. (%s)",
-                ThaiFormatter.format(getStart(), "H:mm"),
-                ThaiFormatter.format(startDay, "d MMM"),
-                ThaiFormatter.format(getEnd(), "H:mm"),
-                ThaiFormatter.format(endDay, "d MMM")
-            )
+            else -> if (mini) {
+                String.format(
+                    Locale.ENGLISH,
+                    "%s - %s",
+                    ThaiFormatter.format(getStart(), "H:mm"),
+                    ThaiFormatter.format(getEnd(), "H:mm"),
+                )
+            } else {
+                String.format(
+                    Locale.ENGLISH,
+                    "%s น. (%s) - %s น. (%s)",
+                    ThaiFormatter.format(getStart(), "H:mm"),
+                    ThaiFormatter.format(startDay, "d MMM"),
+                    ThaiFormatter.format(getEnd(), "H:mm"),
+                    ThaiFormatter.format(endDay, "d MMM")
+                )
+            }
         }
     }
-
 }

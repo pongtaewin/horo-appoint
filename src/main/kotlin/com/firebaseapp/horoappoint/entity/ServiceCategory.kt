@@ -1,6 +1,12 @@
 package com.firebaseapp.horoappoint.entity
 
-import jakarta.persistence.*
+import com.firebaseapp.horoappoint.HoroAppointApplication.Companion.getImg
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.net.URL
@@ -26,8 +32,9 @@ class ServiceCategory {
     var displayImage: URL? = null
 
     fun getDisplayImageOrDefault() =
-        displayImage ?: URL("https://storage.googleapis.com/horo-appoint.appspot.com/banner-default.jpg")
+        displayImage ?: getImg("banner-default.jpg")
 
+    @Suppress("Unused")
     @JdbcTypeCode(SqlTypes.BOOLEAN)
     @Column(name = "visible", nullable = false)
     var visible: Boolean? = null

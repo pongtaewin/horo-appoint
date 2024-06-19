@@ -1,7 +1,6 @@
 package com.firebaseapp.horoappoint
 
 import com.linecorp.bot.spring.boot.handler.annotation.LineMessageHandler
-import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
@@ -18,39 +17,17 @@ import org.springframework.security.web.SecurityFilterChain
 import org.thymeleaf.spring6.SpringTemplateEngine
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver
 import org.thymeleaf.templatemode.TemplateMode
+import java.net.URL
 import java.util.*
 
-
+@Suppress("SpreadOperator")
 fun main(args: Array<String>) {
     runApplication<HoroAppointApplication>(*args)
 }
 
-
-/*
-HTML/CSS
-Mustache Template
-
-Java
-Kotlin
-Spring MVC
-Spring Boot
-
-Line Bot SDK / Spring Boot
-Jackson (JSON)
-
-Firebase Hosting
-Google Cloud Storage
-Google Cloud SQL
-Google Maps API (Geocoding)
- */
-
-
 @SpringBootApplication
 @LineMessageHandler
 class HoroAppointApplication {
-    // logger
-    private val log = LoggerFactory.getLogger(HoroAppointApplication::class.java)
-
 
     @Configuration
     @EnableWebSecurity
@@ -58,9 +35,9 @@ class HoroAppointApplication {
 
         /**
          * Security Filter Chain
-         * 1. Login Page to every requests.
+         * 1. Login Page to every request.
          * 2. Webhook Callback to requests from LINE API endpoints.
-         * 3. All pages to every authenicated requests.
+         * 3. All pages to every authenticated requests.
          */
         @Bean
         @Throws(Exception::class)
@@ -74,7 +51,7 @@ class HoroAppointApplication {
                 }.httpBasic { }
                 .formLogin {
                     it.loginPage("/login")
-                        //.failureForwardUrl("/staff/login")
+                        // .failureForwardUrl("/staff/login")
                         .permitAll()
                 }
 
@@ -83,10 +60,12 @@ class HoroAppointApplication {
 
         @Bean
         fun authenticationManager(userDetailsService: UserDetailsService) =
-            ProviderManager(DaoAuthenticationProvider().apply {
-                setUserDetailsService(userDetailsService)
-                setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()!!)
-            }).apply { isEraseCredentialsAfterAuthentication = false }
+            ProviderManager(
+                DaoAuthenticationProvider().apply {
+                    setUserDetailsService(userDetailsService)
+                    setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder()!!)
+                }
+            ).apply { isEraseCredentialsAfterAuthentication = false }
 
         @Bean
         fun userDetailsService() = InMemoryUserDetailsManager(
@@ -97,6 +76,7 @@ class HoroAppointApplication {
     }
 
     @Configuration
+    @Suppress("UnusedPrivateMember", "MagicNumber")
     class ThymeleafConfiguration {
         private companion object {
             private fun baseMTR() = SpringResourceTemplateResolver().apply {
@@ -120,7 +100,6 @@ class HoroAppointApplication {
                 order = 2
             }
 
-
             @Bean
             private fun textMTR() = baseMTR().apply {
                 resolvablePatterns = setOf("text/*")
@@ -133,7 +112,11 @@ class HoroAppointApplication {
         @Bean
         fun messageTemplateEngine(templateResolvers: Collection<SpringResourceTemplateResolver>) =
             SpringTemplateEngine().apply { templateResolvers.forEach(::addTemplateResolver) }
-
+    }
+    companion object {
+        const val PROJECT_ID = "horo-appoint"
+        const val PROJECT_LINK = "$PROJECT_ID.appspot.com"
+        const val BUCKET_LINK = "https://storage.googleapis.com/$PROJECT_LINK/"
+        fun getImg(name: String) = URL(BUCKET_LINK + name)
     }
 }
-

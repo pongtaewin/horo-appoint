@@ -1,18 +1,6 @@
 {
   "type": "bubble",
   "size": "mega",
-  "header": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "กรุณาตรวจสอบสลิป",
-        "weight": "bold",
-        "size": "xl"
-      }
-    ]
-  },
   "hero": {
     "type": "image",
     "url": "[(${uri})]",
@@ -23,6 +11,12 @@
     "type": "box",
     "layout": "vertical",
     "contents": [
+      {
+        "type": "text",
+        "text": "กรุณาตรวจสอบสลิป",
+        "weight": "bold",
+        "size": "xl"
+      },
       {
         "type": "box",
         "layout": "vertical",

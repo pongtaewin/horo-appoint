@@ -1,11 +1,18 @@
 package com.firebaseapp.horoappoint.entity
 
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
+import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
 import java.net.URL
 import java.time.Instant
-
 
 @Entity
 @Table(name = "appointment")
@@ -27,19 +34,6 @@ class Appointment {
     @JoinColumn(name = "location_id")
     var location: Location? = null
 
-    /*
-    customer        Customer
-    serviceChoice   ServiceChoice
-    location        Location?
-    timeframe       Timeframe?
-    slipImage       URL?
-    selectionAdded  Instant
-    selectionFinal  Instant?
-    slipAdded       Instant?
-    slipFinal       Instant?
-    approved        Instant?
-     */
-
     @OneToOne(orphanRemoval = false)
     @JoinColumn(name = "timeframe_id")
     var timeframe: Timeframe? = null
@@ -53,7 +47,6 @@ class Appointment {
     var selectionAdded: Instant? = null
 
     @JdbcTypeCode(SqlTypes.TIMESTAMP)
-
     @Column(name = "selection_final")
     var selectionFinal: Instant? = null
 
@@ -73,9 +66,14 @@ class Appointment {
     @Column(name = "finished")
     var finished: Instant? = null
 
-    fun getLocationDescriptor(): String = when (serviceChoice!!.serviceType!!) {
+    fun getLocationDescriptor(mini: Boolean = false): String = when (serviceChoice!!.serviceType!!) {
         ServiceType.ONLINE_CHAT, ServiceType.PASSIVE -> "ผ่านทางแชทไลน์"
-        ServiceType.ON_PREMISE, ServiceType.GUIDE -> "สำนักสักลายมือเศรษฐี จอมพล 789\\nตำบลท้ายหาด อำเภอเมือง จังหวัดสมุทรสงคราม"
-        ServiceType.MEETUP -> location!!.getName()
+        ServiceType.ON_PREMISE, ServiceType.GUIDE ->
+            if (mini) "ที่สำนักสักฯ" else "สำนักสักลายมือเศรษฐี จอมพล 789\\nต.ท้ายหาด อ.เมือง จ.สมุทรสงคราม"
+
+        ServiceType.MEETUP -> location!!.getName(mini)
     }
+
+    fun getTimeLastUpdated(): Instant =
+        listOfNotNull(selectionAdded, selectionFinal, slipAdded, slipFinal, approved, finished).maxOrNull()!!
 }

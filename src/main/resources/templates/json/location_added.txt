@@ -111,6 +111,91 @@
                 "flex": 2
               }
             ]
+          },
+          {
+            "type": "separator",
+            "margin": "sm"
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "โซน",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1,
+                "wrap": true
+              },
+              {
+                "type": "text",
+                "text": "[(${zone})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ระยะเวลา\nให้บริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1,
+                "wrap": true
+              },
+              {
+                "type": "text",
+                "text": "[(${duration})]",
+                "wrap": true,
+                "color": "#666666",
+                "size": "sm",
+                "flex": 2
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "baseline",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "text",
+                "text": "ค่าบริการ",
+                "color": "#aaaaaa",
+                "size": "sm",
+                "flex": 1,
+                "wrap": true
+              },
+              {
+                "type": "text",
+                "text": "hello, world",
+                "contents": [
+                  {
+                    "type": "span",
+                    "text": "[(${price})]",
+                    "size": "lg",
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "span",
+                    "text": " บาท",
+                    "size": "sm",
+                    "weight": "bold"
+                  }
+                ],
+                "margin": "none",
+                "flex": 2
+              }
+            ]
           }
         ]
       },

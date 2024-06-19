@@ -1,18 +1,6 @@
 {
   "type": "bubble",
   "size": "mega",
-  "header": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "บันทึกข้อมูลเรียบร้อย",
-        "weight": "bold",
-        "size": "xl"
-      }
-    ]
-  },
   "hero": {
     "type": "image",
     "url": "[(${uri})]",
@@ -23,6 +11,12 @@
     "type": "box",
     "layout": "vertical",
     "contents": [
+      {
+        "type": "text",
+        "text": "บันทึกข้อมูลเรียบร้อย",
+        "weight": "bold",
+        "size": "xl"
+      },
       {
         "type": "box",
         "layout": "vertical",
@@ -102,7 +96,7 @@
             "type": "text",
             "size": "sm",
             "align": "center",
-            "text": "เมื่อการจองได้รับการอนุมัติจากอาจารย์ครับ"
+            "text": "เมื่อการจองได้รับการยืนยันจากอาจารย์ครับ"
           }
         ],
         "flex": 0,

@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="th">
-<head th:insert="~{html/fragments/general.html :: header-login}"></head>
+<head>
+    <meta charset="UTF-8"/>
+    <title>เข้าสู่ระบบ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/896118f067.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body, .new-font {
+            font-family: "Sarabun", sans-serif;
+        }
+    </style>
+</head>
 <body>
-<div id="layout" class="content pure-g" style="align-content: center;height: 100vh">
-    <div class="pure-u-1-5"></div>
-    <div class="pure-u-3-5">
-        <form class="pure-form pure-form-aligned" th:action="@{/login}" method="post">
-            <fieldset>
-                <legend>เข้าสู่ระบบ</legend>
-                <br>
-                <div class="pure-control-group">
-                    <label for="username">ชื่อผู้ใช้</label>
-                    <input type="text" name="username" id="username" placeholder="username" />
+<div class="hero is-fullheight has-background-grey">
+    <form class="hero-body is-justify-content-center is-align-items-center"
+          th:action="@{/login}" method="post">
+        <div class="columns is-flex is-flex-direction-column box" style="width: 25rem">
+            <div class="column">
+                <h1 class="is-size-3 has-text-centered"><b>เข้าสู่ระบบ</b></h1>
+            </div>
+            <div class="column">
+                <div class="control is-medium has-icons-left">
+                    <input class="input new-font is-medium" type="text"
+                           name="username" id="username" placeholder="ชื่อผู้ใช้" />
+                    <span class="icon is-left is-medium"><i class="fas fa-user"></i></span>
                 </div>
-                <div class="pure-control-group">
-                    <label for="password">รหัสผ่าน</label>
-                    <input type="password" name="password" id="password" placeholder="password" />
+            </div>
+            <div class="column">
+                <div class="control is-medium has-icons-left">
+                    <input class="input new-font is-medium" type="password"
+                           name="password" id="password" placeholder="รหัสผ่าน" />
+                    <span class="icon is-left is-medium"><i class="fas fa-key"></i></span>
                 </div>
-                <div class="pure-controls">
-                    <label th:if="${param.error}">Invalid username and password.</label>
-                    <label th:if="${param.logout}">You have been logged out.</label>
-                    <button type="submit" class="pure-button pure-button-primary">เข้าสู่ระบบ</button>
-                </div>
-            </fieldset>
-        </form>
-
-    </div>
-    <div class="pure-u-1-5"></div>
+            </div>
+            <div class="column">
+                <p class="mb-2 has-text-centered has-text-danger" th:if="${param.error}">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</p>
+                <p class="mb-2 has-text-centered has-text-success" th:if="${param.logout}">ออกจากระบบแล้ว</p>
+                <button class="button is-primary is-medium is-fullwidth" type="submit">เข้าสู่ระบบ</button>
+            </div>
+        </div>
+    </form>
 </div>
 </body>
 </html>

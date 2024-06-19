@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="th">
+<head th:fragment="header">
+    <meta charset="UTF-8"/>
+    <title>แอปพลิเคชัน HoroAppoint</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <script src="https://kit.fontawesome.com/896118f067.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: "Sarabun", sans-serif;
+        }
+        .grid-height {
+            height: calc((100vh - 3.5rem - (5 * 1rem) - 2rem) / 6);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar is-link" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand has-background-info">
+        <a class="navbar-item has-text-black" href="https://bulma.io"><b>HoroAppoint</b></a>
+
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" th:href="@{/}">รายการนัดหมาย</a>
+            <a class="navbar-item" th:href="@{/schedule}">ปฏิทิน</a>
+        </div>
+
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-primary" href="https://chat.line.biz" target="_blank">
+                        <strong class="is-light">เปิด Line</strong>
+                    </a>
+                    <a class="button is-light">
+                        ออกจากระบบ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="columns pb-0">
+    <div class="column is-3">
+        <div class="field has-addons p-4 mb-0 is-expanded is-medium has-background-grey-lighter">
+            <p class="control">
+                <a class="button is-static">เดือน</a>
+            </p>
+            <p class="control is-expanded">
+                <span class="select is-fullwidth">
+                  <select>
+                    <option th:each="m:${months}" th:selected="${mn == m.id}" th:value="${m.id}" th:text="${m.text}"></option>
+                  </select>
+                </span>
+            </p>
+            <p class="control">
+                <a class="button is-static">ปี</a>
+            </p>
+            <p class="control is-expanded">
+                <span class="select is-fullwidth">
+                  <select>
+                    <option th:each="y:${years}" th:selected="${yr == y.id}" th:value="${y.id}" th:text="${y.text}"></option>
+                  </select>
+                </span>
+            </p>
+        </div>
+        <div class="field has-addons px-4 pb-4 is-expanded is-medium has-background-grey-lighter">
+            <p class="control">
+                <a class="button is-static">วันที่</a>
+            </p>
+            <p class="control is-expanded">
+                <span class="select is-fullwidth">
+                  <select>
+                    <option th:selected="${dy == ''}" value="">--</option>
+                    <option th:each="d:${days}" th:selected="${dy == d.id}" th:value="${d.id}" th:text="${d.text}"></option>
+                  </select>
+                </span>
+            </p>
+        </div>
+        <form id="fMain" action="/" method="get"></form>
+        <div th:unless="${rows.size() > 0}">
+            <p class="is-size-4 has-text-centered p-4"><b>ไม่พบการนัดหมายวันนี้</b></p>
+        </div>
+        <div class="has-background-grey-light mx-0 columns is-flex-direction-column" th:if="${rows.size() > 0}">
+            <div class="has-background-text-90 m-4 p-0 box is-rounded" th:each="x: ${rows}">
+                <div class="column" th:unless="${x.hideStart}">
+                    <a class="tag is-white" th:text="${x.time.padStart}">12:30</a> <span>เตรียมให้บริการ</span>
+                </div>
+                <div class="column card mx-0 my-0">
+                    <div class="columns is-flex-direction-column card-content p-0">
+                        <div class="column">
+                            <a class="tag is-warning" th:text="${x.time.start}">12:30</a> <span>เริ่มต้น</span>
+                        </div>
+                        <div class="pl-6">
+                            <article class="media p-2 my-0">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        <img alt="Customer Image" class="is-rounded" th:src="${x.src}"></p>
+                                    <p class="has-text-centered mt-4">
+                                        <span th:if="${x.appType == 'booking'}" class="tag is-danger">ใช้งานอยู่</span>
+                                        <span th:if="${x.appType == 'payment'}" class="tag is-warning">รอชำระ</span>
+                                        <span th:if="${x.appType == 'confirmation'}" class="tag is-info">ตรวจสอบ</span>
+                                        <span th:if="${x.appType == 'ready'}" class="tag is-success">พร้อม</span>
+                                        <span th:if="${x.appType == 'finished'}" class="tag is-light">เสร็จสิ้น</span>
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <div class="m-0">
+                                            <div class="pb-2" th:text="${x.name}">พงษ์เทวิน | แสตมป์</div>
+                                            <span class="icon is-small mr-2"><i class="fas fa-folder-closed" aria-hidden="true"></i></span>
+                                            <span th:text="${x.service}">ดูดวงออนไลน์</span><br>
+                                            <span class="icon is-small mr-2"><i class="fas fa-folder-tree" aria-hidden="true"></i></span>
+                                            <span th:text="${x.choice}">แพ็กเกจเร่งรัด</span><br>
+                                        </div>
+                                        <nav class="level">
+                                            <div class="level-left">
+                                                <span th:if="${x.serviceType == 'ONLINE_CHAT'}" class="level-item icon is-small"><i class="fas fa-comments"></i></span>
+                                                <span th:if="${x.serviceType == 'ON_PREMISE'}" class="level-item icon is-small"><i class="fas fa-shop"></i></span>
+                                                <span th:if="${x.serviceType == 'GUIDE'}" class="level-item icon is-small"><i class="fas fa-vihara"></i></span>
+                                                <span th:if="${x.serviceType != 'MEETUP'}" th:text="${x.typeText}"></span>
+
+                                                <span th:if="${x.serviceType == 'MEETUP'}" class="level-item icon is-small">
+                                                    <i th:if="${x.loc.zone == 1}" class="fas fa-car-side"></i>
+                                                    <i th:if="${x.loc.zone == 2}" class="fas fa-van-shuttle"></i>
+                                                    <i th:if="${x.loc.zone == 3}" class="fas fa-plane-arrival"></i>
+                                                </span>
+                                                <span class="level-item tags has-addons" th:if="${x.serviceType == 'MEETUP'}">
+                                                    <span class="tag is-danger is-light"><b th:text="${x.loc.km + 'กม.'}"></b></span>
+                                                    <span class="tag has-background-primary-light" th:text="${x.loc.prov}"></span>
+                                                    <span class="tag is-primary is-light" th:text="${x.loc.dist}">่</span>
+                                                </span>
+                                            </div>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="media-right">
+                                    <a class="button" type="submit" th:href="@{'/?selected=' + x.id}">
+                                        <span class="icon is-small"><i class="fas fa-right-from-bracket" aria-hidden="true"></i></span>
+                                    </a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="column">
+                            <a class="tag is-info" th:text="${x.time.end}">12:30</a> <span>สิ้นสุด</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="column" th:unless="${x.hideEnd}">
+                    <a class="tag is-white" th:text="${x.time.padEnd}">12:30</a> <span>พักผ่อน</span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="column is-9 fixed-grid has-7-cols is-fullwidth p-5">
+        <div class="grid" >
+            <a class="cell grid-height p-2 has-radius-normal"
+               th:classappend="${mStat[i].same ? 'has-background-primary-light' : 'has-background-light'}"
+               th:each="i:${#numbers.sequence(0,41)}" style="position: relative; " href="#">
+                <div class="has-background-grey-lighter has-text-black has-text-centered has-radius-normal p-1 "
+                     style="width:2.0em;position:absolute;top:0;right:0;z-index: 1;"><b class="is-size-6" th:text="${mDay[i]}">24</b></div>
+                <div class="tags has-addons is-small mb-2" th:unless="${mStat[i].blank}">
+                    <span class="tag is-dark" th:text="${mStat[i].count}"><b>3 งาน</b></span>
+                    <span class="tag" th:text="${mStat[i].time}">3 ชม. 45 นท.</span>
+                </div>
+                <div style="height:calc(100% - 2em);overflow-y: auto;overflow-x: hidden;scrollbar-width: thin;scrollbar-color: rgba(0,0,0,0.5) transparent;">
+                    <span class="tags has-addons is-small mb-1" th:each="y: ${mLines[i]}">
+
+                        <span th:if="${y.appType == 'booking'}" class="tag px-1 is-danger"></span>
+                        <span th:if="${y.appType == 'payment'}" class="tag px-1 is-warning"></span>
+                        <span th:if="${y.appType == 'confirmation'}" class="tag px-1 is-info"></span>
+                        <span th:if="${y.appType == 'ready'}" class="tag px-1 is-success"></span>
+                        <span th:if="${y.appType == 'finished'}" class="tag px-1 is-light"></span>
+
+                        <b><span class="tag is-white" th:text="${y.start}"></span></b>
+
+                        <span class="tag is-success is-light" th:if="${y.serviceType == 'ONLINE_CHAT'}">
+                            <span  class="icon mr-0"><i class="fas fa-comments"></i></span> แชทไลน์
+                        </span>
+                        <span class="tag is-danger is-light" th:if="${y.serviceType == 'ON_PREMISE'}">
+                            <span class="icon mr-0"><i class="fas fa-shop"></i></span> สำนักฯ
+                        </span>
+                        <span class="tag is-warning is-light" th:if="${y.serviceType == 'GUIDE'}">
+                            <span class="icon mr-0"><i class="fas fa-vihara"></i></span> ไกด์
+                        </span>
+                        <span class="tag is-link is-light" th:if="${y.serviceType == 'MEETUP'}">
+                            <span class="icon mr-0">
+                                <i th:if="${y.zone == 1}" class="fas fa-car-side"></i>
+                                <i th:if="${y.zone == 2}" class="fas fa-van-shuttle"></i>
+                                <i th:if="${y.zone == 3}" class="fas fa-plane-arrival"></i>
+                            </span> <span th:text="${y.prov}"></span>
+                        </span>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
